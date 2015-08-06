@@ -1,2 +1,2 @@
 # gradStop.js
-JavaScript micro framework to generate gradient stops
+JavaScript micro library to generate gradient stops
