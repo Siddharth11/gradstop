@@ -9,7 +9,7 @@ Minified size: 2.21 kb
     var gradient = new gradStop({
        stops: 5,
        inColor: 'hex',
-       colorArray: ['#3438388', '#00DFFC']
+       colorArray: ['#343838', '#00DFFC']
     });
     
     console.log(gradient);
