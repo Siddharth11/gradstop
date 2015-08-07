@@ -145,7 +145,7 @@
                 h = hueStart + Math.floor(hIncrement * i);
                 s = satStart + Math.floor(sIncrement * i);
                 l = lumStart + Math.floor(lIncrement * i);
-                this.outputArray.push('rgb(' + h + ',' + s + '%,' + l + '%)');
+                this.outputArray.push('hsl(' + h + ',' + s + '%,' + l + '%)');
             }
 
         }
