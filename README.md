@@ -20,3 +20,8 @@ Minified size: 2.21 kb
 
 
   [1]: https://cdn.rawgit.com/Siddharth11/gradStop.js/master/gradient%20strip.png
+
+
+
+
+### [Demo On CodePen](http://codepen.io/Siddharth11/pen/RPvJmO)
