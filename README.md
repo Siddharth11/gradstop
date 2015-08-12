@@ -2,7 +2,6 @@
 
 ####JavaScript micro library to generate equidistant gradient stops
 
-Minified size: 2.21 kb
 
 ###Usage:
 
