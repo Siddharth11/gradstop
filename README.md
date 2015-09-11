@@ -1,6 +1,6 @@
 #gradStop.js
 
-####JavaScript micro library to generate equidistant gradient stops
+####JavaScript micro library to generate monotone color schemes and equidistant gradient stops
 
 
 ###Usage:
