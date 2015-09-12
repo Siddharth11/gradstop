@@ -24,8 +24,8 @@
 
 
 ### Demos
-* [Example 1](http://codepen.io/Siddharth11/pen/RPvJmO)
-* [Example 2](http://codepen.io/Siddharth11/pen/bVVxYL)
+* [Example 1](http://codepen.io/Siddharth11/full/RPvJmO)
+* [Example 2](http://codepen.io/Siddharth11/full/bVVxYL)
 
 
 
