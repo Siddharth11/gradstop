@@ -22,10 +22,7 @@
 
 
 
-
-### Demos
 * [Example 1](http://codepen.io/Siddharth11/full/RPvJmO)
-* [Example 2](http://codepen.io/Siddharth11/full/bVVxYL)
 
 
 
