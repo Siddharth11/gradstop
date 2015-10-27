@@ -21,8 +21,10 @@
   [1]: https://cdn.rawgit.com/Siddharth11/gradStop.js/master/gradient%20strip.png
 
 
+####Default Parameters:
+ * inColor: 'hex'
+ * stops: 5
+ * colorArray: ['#fff', '#000']
 
-* [Example 1](http://codepen.io/Siddharth11/full/RPvJmO)
 
-
-
+###[Demo](http://codepen.io/Siddharth11/full/RPvJmO)
