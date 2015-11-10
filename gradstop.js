@@ -28,10 +28,13 @@ var hexToRgb = function hexToRgb(hex) {
     } : null;
 };
 
+// create gradStop class
+
 var gradStop = (function () {
     function gradStop(options) {
         _classCallCheck(this, gradStop);
 
+        // default option
         this.options = {
             // input color options: hex, rgb or hsl
             inColor: 'hex',
@@ -44,7 +47,6 @@ var gradStop = (function () {
         extend(this.options, options);
         this._init();
         this.stopsGenerator();
-        // console.log(this.colorArray)
         return this.outputArray;
     }
 
@@ -53,6 +55,7 @@ var gradStop = (function () {
     _createClass(gradStop, [{
         key: '_init',
         value: function _init() {
+            // if hex and defined as #ff or #fff then convert it to standard 7 letter form #ffffff
             if (this.options.inColor === 'hex') {
                 var fixedHexFormat = this.options.colorArray.map(function (color) {
                     if (color.length === 3) {
@@ -68,29 +71,33 @@ var gradStop = (function () {
                 this.colorArray = fixedHexFormat.map(function (color) {
                     return hexToRgb(color);
                 });
-            } else if (this.options.inColor === 'rgb') {
-                this.colorArray = this.options.colorArray.map(function (color) {
-                    color = color.split('').slice(4, -1).join('').split(',');
-                    var _ref = [color];
-                    var r = _ref[0];
-                    var g = _ref[1];
-                    var b = _ref[2];
-
-                    return {
-                        r: r, g: g, b: b
-                    };
-                });
-            } else if (this.options.inColor === 'hsl') {
-                this.colorArray = this.options.colorArray.map(function (color) {
-                    color = color.split('').slice(4, -1).join('').split(',');
-                    var h = color[0],
-                        s = color[1].split('').slice(0, -1).join(''),
-                        l = color[2].split('').slice(0, -1).join('');
-                    return {
-                        h: h, s: s, l: l
-                    };
-                });
             }
+            // if rgb then extract r, g anb b values
+            else if (this.options.inColor === 'rgb') {
+                    this.colorArray = this.options.colorArray.map(function (color) {
+                        color = color.split('').slice(4, -1).join('').split(',');
+                        var _ref = [color];
+                        var r = _ref[0];
+                        var g = _ref[1];
+                        var b = _ref[2];
+
+                        return {
+                            r: r, g: g, b: b
+                        };
+                    });
+                }
+                // if hsl then extract h, s and l values
+                else if (this.options.inColor === 'hsl') {
+                        this.colorArray = this.options.colorArray.map(function (color) {
+                            color = color.split('').slice(4, -1).join('').split(',');
+                            var h = color[0],
+                                s = color[1].split('').slice(0, -1).join(''),
+                                l = color[2].split('').slice(0, -1).join('');
+                            return {
+                                h: h, s: s, l: l
+                            };
+                        });
+                    }
         }
     }, {
         key: 'stopsGenerator',
@@ -100,23 +107,22 @@ var gradStop = (function () {
 
             if (this.options.inColor === 'hex' || this.options.inColor === 'rgb') {
 
-                // red
+                // count increment value for red
                 var redStart = parseInt(this.colorArray[0].r),
                     redEnd = parseInt(this.colorArray[1].r),
-                    rIncrement = (redEnd - redStart) / (this.options.stops - 1);
+                    rIncrement = (redEnd - redStart) / (this.options.stops - 1),
 
-                // green
-                var greenStart = parseInt(this.colorArray[0].g),
+                // count increment value for green
+                greenStart = parseInt(this.colorArray[0].g),
                     greenEnd = parseInt(this.colorArray[1].g),
-                    gIncrement = (greenEnd - greenStart) / (this.options.stops - 1);
+                    gIncrement = (greenEnd - greenStart) / (this.options.stops - 1),
 
-                // blue
-                var blueStart = parseInt(this.colorArray[0].b),
+                // count increment value for blue
+                blueStart = parseInt(this.colorArray[0].b),
                     blueEnd = parseInt(this.colorArray[1].b),
                     bIncrement = (blueEnd - blueStart) / (this.options.stops - 1);
 
-                var i = undefined;
-                for (i = 0; i < this.options.stops; i++) {
+                for (var i = 0; i < this.options.stops; i++) {
                     var r = undefined,
                         g = undefined,
                         b = undefined;
@@ -127,23 +133,22 @@ var gradStop = (function () {
                 }
             } else if (this.options.inColor === 'hsl') {
 
-                // hue
+                // count increment value for hue
                 var hueStart = parseInt(this.colorArray[0].h),
                     hueEnd = parseInt(this.colorArray[1].h),
-                    hIncrement = (hueEnd - hueStart) / (this.options.stops - 1);
+                    hIncrement = (hueEnd - hueStart) / (this.options.stops - 1),
 
-                // saturation
-                var satStart = parseInt(this.colorArray[0].s),
+                // count increment value for saturation
+                satStart = parseInt(this.colorArray[0].s),
                     satEnd = parseInt(this.colorArray[1].s),
-                    sIncrement = (satEnd - satStart) / (this.options.stops - 1);
+                    sIncrement = (satEnd - satStart) / (this.options.stops - 1),
 
-                // luminance
-                var lumStart = parseInt(this.colorArray[0].l),
+                // count increment value for luminance
+                lumStart = parseInt(this.colorArray[0].l),
                     lumEnd = parseInt(this.colorArray[1].l),
                     lIncrement = (lumEnd - lumStart) / (this.options.stops - 1);
 
-                var i = undefined;
-                for (i = 0; i < this.options.stops; i++) {
+                for (var i = 0; i < this.options.stops; i++) {
                     var h = undefined,
                         s = undefined,
                         l = undefined;
