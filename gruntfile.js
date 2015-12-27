@@ -7,7 +7,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    './gradstop.min.js': './gradstop.es6.js'
+                    './gradstop.js': './gradstop.es6.js'
                 }
             }
         },
@@ -17,7 +17,7 @@ module.exports = function(grunt) {
                     sourceMap: false
                 },
                 files: {
-                    './gradstop.min.js': ['./gradstop.min.js']
+                    './gradstop.min.js': ['./gradstop.js']
                 }
             }
         },
