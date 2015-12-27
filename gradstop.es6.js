@@ -1,4 +1,4 @@
-(function(window) {
+(function(glob) {
 
     if (typeof Object.assign != 'function') {
         Object.assign = target => {
@@ -21,15 +21,15 @@
         }
     }
 
-    function gradStop(options) {
+    function GradStop(options) {
         options = Object.assign({}, this.options, options)
         return this.computeStops(options)
     }
 
     /**
-     * gradStop options
+     * GradStop options
      */
-    gradStop.prototype.options = {
+    GradStop.prototype.options = {
         // input color options: hex, rgb or hsl
         inColor: 'hex',
         // number of equidistant color stops (cannot be less than colorArray.length)
@@ -41,7 +41,7 @@
     /**
      * computeStops
      */
-    gradStop.prototype.computeStops = options => {
+    GradStop.prototype.computeStops = options => {
 
         let outputArray = []
 
@@ -160,6 +160,7 @@
 
     }
 
-    window.gradStop = gradStop
+    // drop 'new' keyword
+    glob.gradStop = options => new GradStop(options)
 
-})(window)
+})(typeof window !== 'undefined' ? window : global)
