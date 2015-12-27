@@ -155,8 +155,6 @@
             }
         }
 
-        // console.log(init(options))
-
         options.colorArray = init(options)
         stopsGenerator(options)
 
