@@ -77,11 +77,12 @@
             else if (options.inColor === 'rgb') {
                 return options.colorArray.map(color => {
                     color = color.split('').slice(4, -1).join('').split(',')
-                    let [r, g, b] = [color]
+                    let [r, g, b] = [...color]
                     return {
                         r, g, b
                     }
                 })
+
             }
             // if hsl then extract h, s and l values
             else if (options.inColor === 'hsl') {
@@ -94,6 +95,7 @@
                         h, s, l
                     }
                 })
+
             }
         }
 
@@ -152,6 +154,8 @@
                 }
             }
         }
+
+        // console.log(init(options))
 
         options.colorArray = init(options)
         stopsGenerator(options)
