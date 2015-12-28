@@ -5,7 +5,7 @@
 
 ###Usage:
 
-    var gradient = new gradStop({
+    var gradient = gradStop({
        stops: 5,
        inColor: 'hex',
        colorArray: ['#343838', '#00DFFC']
