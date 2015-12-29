@@ -1,11 +1,10 @@
 (function(glob) {
-
+    // Object.assign polyfill
     if (typeof Object.assign != 'function') {
         Object.assign = target => {
             if (target === undefined || target === null) {
                 throw new TypeError('Cannot convert undefined or null to object')
             }
-
             let output = Object(target)
             for (let index = 1; index < arguments.length; index++) {
                 let source = arguments[index]
@@ -31,7 +30,7 @@
      */
     GradStop.prototype.options = {
         // input color options: hex, rgb or hsl
-        inColor: 'hex',
+        inputFormat: 'hex',
         // number of equidistant color stops (cannot be less than colorArray.length)
         stops: 5,
         // input color array (currently supports only 2)
@@ -48,25 +47,25 @@
         /**
          * utlils
          */
-        let hexToRgb = hex => {
-            let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+        const hexToRgb = hex => {
+            let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex),
+                [, r, g, b] = [...result.map(val => parseInt(val, 16))]
             return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
+                r, g, b
             } : null
         }
 
-        let init = options => {
-            // if hex and defined as #ff or #fff then convert it to standard 7 letter form #ffffff
-            if (options.inColor === 'hex') {
+        const splitSliceJoin = (string, start, end) => string.split('').slice(start, end).join('')
+
+        const init = options => {
+            // if hex and defined as #ff or #fff then convert it to standard 7 letter format #ffffff
+
+            if (options.inputFormat === 'hex') {
                 let fixedHexFormat = options.colorArray.map(color => {
                     if (color.length === 3) {
-                        color = color + color.split('').slice(1, 3).join('') + color.split('').slice(1, 3).join('')
-                        return color
+                        return color + splitSliceJoin(color, 1, 3) + splitSliceJoin(color, 1, 3)
                     } else if (color.length === 4) {
-                        color = color + color.split('').slice(1, 4).join('')
-                        return color
+                        return color + splitSliceJoin(color, 1, 4)
                     } else if (color.length === 7) {
                         return color
                     }
@@ -74,92 +73,60 @@
                 return fixedHexFormat.map(color => hexToRgb(color))
             }
             // if rgb then extract r, g anb b values
-            else if (options.inColor === 'rgb') {
+            else if (options.inputFormat === 'rgb') {
                 return options.colorArray.map(color => {
-                    color = color.split('').slice(4, -1).join('').split(',')
-                    let [r, g, b] = [...color]
+                    let [r, g, b] = [...splitSliceJoin(color, 4, -1).split(',')]
                     return {
                         r, g, b
                     }
                 })
-
             }
             // if hsl then extract h, s and l values
-            else if (options.inColor === 'hsl') {
+            else if (options.inputFormat === 'hsl') {
                 return options.colorArray.map(color => {
-                    color = color.split('').slice(4, -1).join('').split(',')
+                    color = splitSliceJoin(color, 4, -1).split(',')
                     let h = color[0],
-                        s = color[1].split('').slice(0, -1).join(''),
-                        l = color[2].split('').slice(0, -1).join('')
+                        s = splitSliceJoin(color[1], 0, -1),
+                        l = splitSliceJoin(color[2], 0, -1)
                     return {
                         h, s, l
                     }
                 })
-
             }
         }
 
-        let stopsGenerator = options => {
+        const stopsGenerator = options => {
 
             let colorArray = options.colorArray
 
-            if (options.inColor === 'hex' || options.inColor === 'rgb') {
+            // calculate start and end values of r,g,b,h,s and l
+            const startEnd = (property) => colorArray.map(val => parseInt(val[property]))
 
-                // count increment value for red
-                let redStart = parseInt(colorArray[0].r),
-                    redEnd = parseInt(colorArray[1].r),
-                    rIncrement = (redEnd - redStart) / (options.stops - 1),
+            // calculate increment value
+            const increment = (start, end) => (end - start) / (options.stops - 1)
 
-                    // count increment value for green
-                    greenStart = parseInt(colorArray[0].g),
-                    greenEnd = parseInt(colorArray[1].g),
-                    gIncrement = (greenEnd - greenStart) / (options.stops - 1),
+            // calculate step values of r,g,b,h,s and l
+            const stepVal = (property, index) => startEnd(property)[0] + Math.trunc(increment(...startEnd(property)) * index)
 
-                    // count increment value for blue
-                    blueStart = parseInt(colorArray[0].b),
-                    blueEnd = parseInt(colorArray[1].b),
-                    bIncrement = (blueEnd - blueStart) / (options.stops - 1)
+            if (options.inputFormat === 'hex' || options.inputFormat === 'rgb') {
 
                 for (let i = 0; i < options.stops; i++) {
-                    let r, g, b
-                    r = redStart + Math.floor(rIncrement * i)
-                    g = greenStart + Math.floor(gIncrement * i)
-                    b = blueStart + Math.floor(bIncrement * i)
+                    let [r, g, b] = [...['r', 'g', 'b'].map(char => stepVal(char, i))]
                     outputArray.push(`rgb(${r},${g},${b})`)
                 }
 
-            } else if (options.inColor === 'hsl') {
-
-                // count increment value for hue
-                let hueStart = parseInt(colorArray[0].h),
-                    hueEnd = parseInt(colorArray[1].h),
-                    hIncrement = (hueEnd - hueStart) / (options.stops - 1),
-
-                    // count increment value for saturation
-                    satStart = parseInt(colorArray[0].s),
-                    satEnd = parseInt(colorArray[1].s),
-                    sIncrement = (satEnd - satStart) / (options.stops - 1),
-
-                    // count increment value for luminance
-                    lumStart = parseInt(colorArray[0].l),
-                    lumEnd = parseInt(colorArray[1].l),
-                    lIncrement = (lumEnd - lumStart) / (options.stops - 1)
+            } else if (options.inputFormat === 'hsl') {
 
                 for (let i = 0; i < options.stops; i++) {
-                    let h, s, l
-                    h = hueStart + Math.floor(hIncrement * i)
-                    s = satStart + Math.floor(sIncrement * i)
-                    l = lumStart + Math.floor(lIncrement * i)
+                    let [h, s, l] = [...['h', 's', 'l'].map(char => stepVal(char, i))]
                     outputArray.push(`hsl(${h}, ${s}%, ${l}%)`)
                 }
             }
         }
-
         options.colorArray = init(options)
         stopsGenerator(options)
 
         return outputArray
-
     }
 
     // drop 'new' keyword

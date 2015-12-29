@@ -1,13 +1,13 @@
 #gradStop.js
 
-####JavaScript micro library (0.9KB gzipped) to generate monotone color schemes and equidistant gradient stops
+####JavaScript micro library (0.8KB gzipped) to generate monotone color schemes and equidistant gradient stops
 
 
 ###Usage:
 
     var gradient = gradStop({
        stops: 5,
-       inColor: 'hex',
+       inputFormat: 'hex',
        colorArray: ['#343838', '#00DFFC']
     });
     
@@ -22,7 +22,7 @@
 
 
 ####Default Parameters:
- * inColor: 'hex'
+ * inputFormat: 'hex'
  * stops: 5
  * colorArray: ['#fff', '#000']
 

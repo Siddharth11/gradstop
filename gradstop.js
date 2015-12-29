@@ -5,12 +5,12 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 (function (glob) {
     var _arguments = arguments;
 
+    // Object.assign polyfill
     if (typeof Object.assign != 'function') {
         Object.assign = function (target) {
             if (target === undefined || target === null) {
                 throw new TypeError('Cannot convert undefined or null to object');
             }
-
             var output = Object(target);
             for (var index = 1; index < _arguments.length; index++) {
                 var source = _arguments[index];
@@ -36,7 +36,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
      */
     GradStop.prototype.options = {
         // input color options: hex, rgb or hsl
-        inColor: 'hex',
+        inputFormat: 'hex',
         // number of equidistant color stops (cannot be less than colorArray.length)
         stops: 5,
         // input color array (currently supports only 2)
@@ -55,23 +55,33 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
          */
         var hexToRgb = function hexToRgb(hex) {
             var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+
+            var _ref = [].concat(_toConsumableArray(result.map(function (val) {
+                return parseInt(val, 16);
+            })));
+
+            var r = _ref[1];
+            var g = _ref[2];
+            var b = _ref[3];
+
             return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
+                r: r, g: g, b: b
             } : null;
         };
 
+        var splitSliceJoin = function splitSliceJoin(string, start, end) {
+            return string.split('').slice(start, end).join('');
+        };
+
         var init = function init(options) {
-            // if hex and defined as #ff or #fff then convert it to standard 7 letter form #ffffff
-            if (options.inColor === 'hex') {
+            // if hex and defined as #ff or #fff then convert it to standard 7 letter format #ffffff
+
+            if (options.inputFormat === 'hex') {
                 var fixedHexFormat = options.colorArray.map(function (color) {
                     if (color.length === 3) {
-                        color = color + color.split('').slice(1, 3).join('') + color.split('').slice(1, 3).join('');
-                        return color;
+                        return color + splitSliceJoin(color, 1, 3) + splitSliceJoin(color, 1, 3);
                     } else if (color.length === 4) {
-                        color = color + color.split('').slice(1, 4).join('');
-                        return color;
+                        return color + splitSliceJoin(color, 1, 4);
                     } else if (color.length === 7) {
                         return color;
                     }
@@ -81,15 +91,13 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                 });
             }
             // if rgb then extract r, g anb b values
-            else if (options.inColor === 'rgb') {
+            else if (options.inputFormat === 'rgb') {
                     return options.colorArray.map(function (color) {
-                        color = color.split('').slice(4, -1).join('').split(',');
+                        var _ref2 = [].concat(_toConsumableArray(splitSliceJoin(color, 4, -1).split(',')));
 
-                        var _ref = [].concat(_toConsumableArray(color));
-
-                        var r = _ref[0];
-                        var g = _ref[1];
-                        var b = _ref[2];
+                        var r = _ref2[0];
+                        var g = _ref2[1];
+                        var b = _ref2[2];
 
                         return {
                             r: r, g: g, b: b
@@ -97,12 +105,12 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                     });
                 }
                 // if hsl then extract h, s and l values
-                else if (options.inColor === 'hsl') {
+                else if (options.inputFormat === 'hsl') {
                         return options.colorArray.map(function (color) {
-                            color = color.split('').slice(4, -1).join('').split(',');
+                            color = splitSliceJoin(color, 4, -1).split(',');
                             var h = color[0],
-                                s = color[1].split('').slice(0, -1).join(''),
-                                l = color[2].split('').slice(0, -1).join('');
+                                s = splitSliceJoin(color[1], 0, -1),
+                                l = splitSliceJoin(color[2], 0, -1);
                             return {
                                 h: h, s: s, l: l
                             };
@@ -114,61 +122,57 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
             var colorArray = options.colorArray;
 
-            if (options.inColor === 'hex' || options.inColor === 'rgb') {
+            // calculate start and end values of r,g,b,h,s and l
+            var startEnd = function startEnd(property) {
+                return colorArray.map(function (val) {
+                    return parseInt(val[property]);
+                });
+            };
 
-                // count increment value for red
-                var redStart = parseInt(colorArray[0].r),
-                    redEnd = parseInt(colorArray[1].r),
-                    rIncrement = (redEnd - redStart) / (options.stops - 1),
+            // calculate increment value
+            var increment = function increment(start, end) {
+                return (end - start) / (options.stops - 1);
+            };
 
-                // count increment value for green
-                greenStart = parseInt(colorArray[0].g),
-                    greenEnd = parseInt(colorArray[1].g),
-                    gIncrement = (greenEnd - greenStart) / (options.stops - 1),
+            // calculate step values of r,g,b,h,s and l
+            var stepVal = function stepVal(property, index) {
+                return startEnd(property)[0] + Math.trunc(increment.apply(undefined, _toConsumableArray(startEnd(property))) * index);
+            };
 
-                // count increment value for blue
-                blueStart = parseInt(colorArray[0].b),
-                    blueEnd = parseInt(colorArray[1].b),
-                    bIncrement = (blueEnd - blueStart) / (options.stops - 1);
+            if (options.inputFormat === 'hex' || options.inputFormat === 'rgb') {
+                var _loop = function (i) {
+                    var _ref3 = [].concat(_toConsumableArray(['r', 'g', 'b'].map(function (char) {
+                        return stepVal(char, i);
+                    })));
 
-                for (var i = 0; i < options.stops; i++) {
-                    var r = undefined,
-                        g = undefined,
-                        b = undefined;
-                    r = redStart + Math.floor(rIncrement * i);
-                    g = greenStart + Math.floor(gIncrement * i);
-                    b = blueStart + Math.floor(bIncrement * i);
+                    var r = _ref3[0];
+                    var g = _ref3[1];
+                    var b = _ref3[2];
+
                     outputArray.push('rgb(' + r + ',' + g + ',' + b + ')');
-                }
-            } else if (options.inColor === 'hsl') {
-
-                // count increment value for hue
-                var hueStart = parseInt(colorArray[0].h),
-                    hueEnd = parseInt(colorArray[1].h),
-                    hIncrement = (hueEnd - hueStart) / (options.stops - 1),
-
-                // count increment value for saturation
-                satStart = parseInt(colorArray[0].s),
-                    satEnd = parseInt(colorArray[1].s),
-                    sIncrement = (satEnd - satStart) / (options.stops - 1),
-
-                // count increment value for luminance
-                lumStart = parseInt(colorArray[0].l),
-                    lumEnd = parseInt(colorArray[1].l),
-                    lIncrement = (lumEnd - lumStart) / (options.stops - 1);
+                };
 
                 for (var i = 0; i < options.stops; i++) {
-                    var h = undefined,
-                        s = undefined,
-                        l = undefined;
-                    h = hueStart + Math.floor(hIncrement * i);
-                    s = satStart + Math.floor(sIncrement * i);
-                    l = lumStart + Math.floor(lIncrement * i);
+                    _loop(i);
+                }
+            } else if (options.inputFormat === 'hsl') {
+                var _loop2 = function (i) {
+                    var _ref4 = [].concat(_toConsumableArray(['h', 's', 'l'].map(function (char) {
+                        return stepVal(char, i);
+                    })));
+
+                    var h = _ref4[0];
+                    var s = _ref4[1];
+                    var l = _ref4[2];
+
                     outputArray.push('hsl(' + h + ', ' + s + '%, ' + l + '%)');
+                };
+
+                for (var i = 0; i < options.stops; i++) {
+                    _loop2(i);
                 }
             }
         };
-
         options.colorArray = init(options);
         stopsGenerator(options);
 
