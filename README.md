@@ -22,7 +22,7 @@
 
 
 ####Default Parameters:
- * inputFormat: 'hex'
+ * inputFormat: 'hex' (supports hex, rgb and hsl)
  * stops: 5
  * colorArray: ['#fff', '#000']
 
