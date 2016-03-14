@@ -26,5 +26,6 @@
  * stops: 5
  * colorArray: ['#fff', '#000']
 
+Both shorthand(#fff) and standard(#ffffff) format hex values are supported.
 
 ###[Demo](http://codepen.io/Siddharth11/full/RPvJmO)
