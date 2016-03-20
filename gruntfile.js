@@ -7,8 +7,17 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    './gradstop.js': './gradstop.es6.js'
+                    'dist/gradstop.js': 'src/gradstop.es6.js'
                 }
+            }
+        },
+        concat: {
+            options: {
+                separator: ';',
+            },
+            dist: {
+                src: ['src/polyfill.js', 'dist/gradstop.js'],
+                dest: 'dist/gradstop.js'
             }
         },
         uglify: {
@@ -17,14 +26,14 @@ module.exports = function(grunt) {
                     sourceMap: false
                 },
                 files: {
-                    './gradstop.min.js': ['./gradstop.js']
+                    'dist/gradstop.min.js': ['dist/gradstop.js']
                 }
             }
         },
         watch: {
             scripts: {
-                files: ['./gradstop.es6.js'],
-                tasks: ['babel', 'uglify'],
+                files: ['src/*.js'],
+                tasks: ['babel', 'concat', 'uglify'],
                 options: {
                     spawn: false
                 }
@@ -32,6 +41,7 @@ module.exports = function(grunt) {
         }
     });
 
+    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-babel');
