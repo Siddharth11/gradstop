@@ -37,6 +37,11 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 (function (glob) {
     function GradStop(options) {
         options = objectAssign({}, this.options, options);
+
+        if (options.stops < options.colorArray.length) {
+            throw "Number of stops cannot be less than colorArray.length";
+        }
+
         return this.computeStops(options);
     }
 

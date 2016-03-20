@@ -1,6 +1,11 @@
 (function(glob) {
     function GradStop(options) {
         options = objectAssign({}, this.options, options)
+
+        if (options.stops < options.colorArray.length) {
+            throw "Number of stops cannot be less than colorArray.length"
+        }
+
         return this.computeStops(options)
     }
 
