@@ -30,7 +30,7 @@ var objectAssign = (function() {
         }
         return output;
     };
-})();;'use strict';
+})();;"use strict";
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
 
@@ -42,7 +42,37 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             throw "Number of stops cannot be less than colorArray.length";
         }
 
-        return this.computeStops(options);
+        var len = options.colorArray.length;
+
+        if (len === 2) {
+            return this.computeStops(options);
+        } else if (len === 3) {
+            var s = options.stops,
+                colArr1 = options.colorArray.slice(0, 2),
+                colArr2 = options.colorArray.slice(1).reverse();
+
+            // even stops
+            if (s % 2 === 0) {
+                var newStops = s / 2 + 1,
+                    i = 1;
+            }
+            // odd stops
+            else {
+                    var newStops = (s + 1) / 2,
+                        i = 0;
+                }
+            var part1 = objectAssign({}, options, {
+                stops: newStops,
+                colorArray: colArr1
+            }),
+                part2 = objectAssign({}, options, {
+                stops: newStops,
+                colorArray: colArr2
+            });
+            return [].concat(_toConsumableArray(this.computeStops(part1).slice(0, -1)), _toConsumableArray(this.computeStops(part2).reverse().slice(i)));
+        } else {
+            throw "colorArray only supports length 2 and 3";
+        }
     }
 
     // GradStop options
@@ -89,7 +119,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             if (options.inputFormat === 'hex') {
                 var fixedHexFormat = options.colorArray.map(function (color) {
                     if (color.length === 4) {
-                        return '#' + (color[1] + color[1] + color[2] + color[2] + color[3] + color[3]);
+                        return "#" + (color[1] + color[1] + color[2] + color[2] + color[3] + color[3]);
                     } else if (color.length === 7) {
                         return color;
                     }
@@ -155,7 +185,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                     var g = _ref3[1];
                     var b = _ref3[2];
 
-                    outputArray.push('rgb(' + r + ',' + g + ',' + b + ')');
+                    outputArray.push("rgb(" + r + "," + g + "," + b + ")");
                 };
 
                 for (var i = 0; i < options.stops; i++) {
@@ -171,7 +201,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                     var s = _ref4[1];
                     var l = _ref4[2];
 
-                    outputArray.push('hsl(' + h + ', ' + s + '%, ' + l + '%)');
+                    outputArray.push("hsl(" + h + ", " + s + "%, " + l + "%)");
                 };
 
                 for (var i = 0; i < options.stops; i++) {

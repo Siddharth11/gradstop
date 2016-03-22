@@ -6,7 +6,37 @@
             throw "Number of stops cannot be less than colorArray.length"
         }
 
-        return this.computeStops(options)
+        let len = options.colorArray.length
+
+        if (len === 2) {
+            return this.computeStops(options)
+        } else if (len === 3) {
+            let s = options.stops,
+                colArr1 = options.colorArray.slice(0, 2),
+                colArr2 = options.colorArray.slice(1).reverse()
+
+            // even stops
+            if (s % 2 === 0) {
+                var newStops = (s / 2) + 1,
+                    i = 1
+            } 
+            // odd stops
+            else {
+                var newStops = (s + 1) / 2,
+                    i = 0
+            }
+            let part1 = objectAssign({}, options, {
+                    stops: newStops,
+                    colorArray: colArr1
+                }),
+                part2 = objectAssign({}, options, {
+                    stops: newStops,
+                    colorArray: colArr2
+                })
+            return [...this.computeStops(part1).slice(0, -1), ...this.computeStops(part2).reverse().slice(i)]
+        } else {
+            throw "colorArray only supports length 2 and 3"
+        }
     }
 
     // GradStop options
