@@ -42,9 +42,9 @@
 
 
 ####Default Parameters:
- * inputFormat: 'hex' (supports hex, rgb and hsl)
+ * inputFormat: 'hex' *`supports hex, rgb and hsl`*
  * stops: 5
- * colorArray: ['#fff', '#000']  (supports upto 3 values)
+ * colorArray: ['#fff', '#000'] *`supports upto 3 values`*
 
 Both shorthand(#fff) and standard(#ffffff) format hex values are supported.
 
