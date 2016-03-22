@@ -29,13 +29,15 @@
     });
     
     console.log(gradient2);
-    // rgb(52,56,56), rgb(90,94,94), rgb(129,132,132), rgb(168,170,170), rgb(207,208,208), rgb(196,241,248), rgb(147,236,249), rgb(98,232,250), rgb(49,227,251), rgb(0,223,252)
+    // rgb(52,56,56), rgb(90,94,94), rgb(129,132,132), rgb(168,170,170), rgb(207,208,208), 
+    // rgb(196,241,248), rgb(147,236,249), rgb(98,232,250), rgb(49,227,251), rgb(0,223,252)
 
 
 ![alt text][2]
 
 
   [2]: https://rawgit.com/Siddharth11/gradStop.js/master/gradient%20strip2.png
+
 
 
 
