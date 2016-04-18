@@ -5,38 +5,7 @@
         if (options.stops < options.colorArray.length) {
             throw "Number of stops cannot be less than colorArray.length"
         }
-
-        let len = options.colorArray.length
-
-        if (len === 2) {
-            return this.computeStops(options)
-        } else if (len === 3) {
-            let s = options.stops,
-                colArr1 = options.colorArray.slice(0, 2),
-                colArr2 = options.colorArray.slice(1).reverse()
-
-            // even stops
-            if (s % 2 === 0) {
-                var newStops = (s / 2) + 1,
-                    i = 1
-            } 
-            // odd stops
-            else {
-                var newStops = (s + 1) / 2,
-                    i = 0
-            }
-            let part1 = objectAssign({}, options, {
-                    stops: newStops,
-                    colorArray: colArr1
-                }),
-                part2 = objectAssign({}, options, {
-                    stops: newStops,
-                    colorArray: colArr2
-                })
-            return [...this.computeStops(part1).slice(0, -1), ...this.computeStops(part2).reverse().slice(i)]
-        } else {
-            throw "colorArray only supports length 2 and 3"
-        }
+        return this.computeStops(options)
     }
 
     // GradStop options
@@ -57,7 +26,7 @@
         // utlils
         const hexToRgb = hex => {
             let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex),
-                [, r, g, b] = [...result.map(val => parseInt(val, 16))]
+                [, r, g, b] = result.map(val => parseInt(val, 16))
             return result ? { r, g, b } : null
         }
 
@@ -79,7 +48,7 @@
             // if rgb then extract r, g anb b values
             else if (options.inputFormat === 'rgb') {
                 return options.colorArray.map(color => {
-                    let [r, g, b] = [...splitSliceJoin(color)(4)(-1).split(',')]
+                    let [r, g, b] = splitSliceJoin(color)(4)(-1).split(',')
                     return { r, g, b }
                 })
             }
@@ -99,27 +68,37 @@
 
             let colorArray = options.colorArray
 
-            // calculate start and end values of r,g,b,h,s and l
-            const startEnd = property => colorArray.map(val => parseInt(val[property]))
+            // get r,g,b,h,s and l with Bezier interpolation 
+            // https://www.cl.cam.ac.uk/teaching/2000/AGraphHCI/SMEG/node3.html
+            // Check issue #3 for more info
+            const propBezInterpolate = charArr => colArr => x => {
+                let y = 1 - x
+                return charArr.map(c => {
+                    if (colArr.length == 2) {
+                        v = (y * colArr[0][c]) + (x * colArr[1][c])
+                    } else if (colArr.length == 3) {
+                        v = ((y ** 2) * colArr[0][c]) + (2 * y * x * colArr[1][c]) + ((x ** 2) * colArr[2][c])
+                    } else if (colArr.length == 4) {
+                        v = ((y ** 3) * colArr[0][c]) + (3 * (y ** 2) * x * colArr[1][c]) + (3 * y * (x ** 2) * colArr[2][c]) + ((x ** 3) * colArr[3][c])
+                    }
+                    return Math.trunc(v)
+                })
+            }
 
-            // calculate increment value
-            const increment = (start, end) => (end - start) / (options.stops - 1)
+            const inc = 1.0 / (options.stops - 1)
 
-            // calculate step values of r,g,b,h,s and l
-            const stepVal = property => index => startEnd(property)[0] + mathTrunc(increment(...startEnd(property)) * index)
+            let t = 0
 
-            if (options.inputFormat === 'hex' || options.inputFormat === 'rgb') {
+            for (let i = 0; i < options.stops; i++) {
 
-                for (let i = 0; i < options.stops; i++) {
-                    let [r, g, b] = [...['r', 'g', 'b'].map(char => stepVal(char)(i))]
-                    outputArray.push(`rgb(${r},${g},${b})`)
-                }
-            } else if (options.inputFormat === 'hsl') {
-
-                for (let i = 0; i < options.stops; i++) {
-                    let [h, s, l] = [...['h', 's', 'l'].map(char => stepVal(char)(i))]
+                if (options.inputFormat == 'hex' || options.inputFormat == 'rgb') {
+                    let [r, g, b] = propBezInterpolate(['r', 'g', 'b'])(colorArray)(t)
+                    outputArray.push(`rgb(${r}, ${g}, ${b})`)
+                } else if (options.inputFormat == 'hsl') {
+                    let [h, s, l] = propBezInterpolate(['h', 's', 'l'])(colorArray)(t)
                     outputArray.push(`hsl(${h}, ${s}%, ${l}%)`)
                 }
+                t += inc
             }
         }
         options.colorArray = init(options)

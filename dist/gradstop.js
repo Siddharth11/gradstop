@@ -30,9 +30,9 @@ var objectAssign = (function() {
         }
         return output;
     };
-})();;"use strict";
+})();;'use strict';
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
+var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
 
 (function (glob) {
     function GradStop(options) {
@@ -41,38 +41,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         if (options.stops < options.colorArray.length) {
             throw "Number of stops cannot be less than colorArray.length";
         }
-
-        var len = options.colorArray.length;
-
-        if (len === 2) {
-            return this.computeStops(options);
-        } else if (len === 3) {
-            var s = options.stops,
-                colArr1 = options.colorArray.slice(0, 2),
-                colArr2 = options.colorArray.slice(1).reverse();
-
-            // even stops
-            if (s % 2 === 0) {
-                var newStops = s / 2 + 1,
-                    i = 1;
-            }
-            // odd stops
-            else {
-                    var newStops = (s + 1) / 2,
-                        i = 0;
-                }
-            var part1 = objectAssign({}, options, {
-                stops: newStops,
-                colorArray: colArr1
-            }),
-                part2 = objectAssign({}, options, {
-                stops: newStops,
-                colorArray: colArr2
-            });
-            return [].concat(_toConsumableArray(this.computeStops(part1).slice(0, -1)), _toConsumableArray(this.computeStops(part2).reverse().slice(i)));
-        } else {
-            throw "colorArray only supports length 2 and 3";
-        }
+        return this.computeStops(options);
     }
 
     // GradStop options
@@ -94,13 +63,15 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         var hexToRgb = function hexToRgb(hex) {
             var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
 
-            var _ref = [].concat(_toConsumableArray(result.map(function (val) {
+            var _result$map = result.map(function (val) {
                 return parseInt(val, 16);
-            })));
+            });
 
-            var r = _ref[1];
-            var g = _ref[2];
-            var b = _ref[3];
+            var _result$map2 = _slicedToArray(_result$map, 4);
+
+            var r = _result$map2[1];
+            var g = _result$map2[2];
+            var b = _result$map2[3];
 
             return result ? { r: r, g: g, b: b } : null;
         };
@@ -119,7 +90,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             if (options.inputFormat === 'hex') {
                 var fixedHexFormat = options.colorArray.map(function (color) {
                     if (color.length === 4) {
-                        return "#" + (color[1] + color[1] + color[2] + color[2] + color[3] + color[3]);
+                        return '#' + (color[1] + color[1] + color[2] + color[2] + color[3] + color[3]);
                     } else if (color.length === 7) {
                         return color;
                     }
@@ -131,11 +102,13 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             // if rgb then extract r, g anb b values
             else if (options.inputFormat === 'rgb') {
                     return options.colorArray.map(function (color) {
-                        var _ref2 = [].concat(_toConsumableArray(splitSliceJoin(color)(4)(-1).split(',')));
+                        var _splitSliceJoin$split = splitSliceJoin(color)(4)(-1).split(',');
 
-                        var r = _ref2[0];
-                        var g = _ref2[1];
-                        var b = _ref2[2];
+                        var _splitSliceJoin$split2 = _slicedToArray(_splitSliceJoin$split, 3);
+
+                        var r = _splitSliceJoin$split2[0];
+                        var g = _splitSliceJoin$split2[1];
+                        var b = _splitSliceJoin$split2[2];
 
                         return { r: r, g: g, b: b };
                     });
@@ -156,57 +129,55 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
             var colorArray = options.colorArray;
 
-            // calculate start and end values of r,g,b,h,s and l
-            var startEnd = function startEnd(property) {
-                return colorArray.map(function (val) {
-                    return parseInt(val[property]);
-                });
-            };
-
-            // calculate increment value
-            var increment = function increment(start, end) {
-                return (end - start) / (options.stops - 1);
-            };
-
-            // calculate step values of r,g,b,h,s and l
-            var stepVal = function stepVal(property) {
-                return function (index) {
-                    return startEnd(property)[0] + mathTrunc(increment.apply(undefined, _toConsumableArray(startEnd(property))) * index);
+            // get r,g,b,h,s and l with Bezier interpolation
+            // https://www.cl.cam.ac.uk/teaching/2000/AGraphHCI/SMEG/node3.html
+            // Check issue #3 for more info
+            var propBezInterpolate = function propBezInterpolate(charArr) {
+                return function (colArr) {
+                    return function (x) {
+                        var y = 1 - x;
+                        return charArr.map(function (c) {
+                            if (colArr.length == 2) {
+                                v = y * colArr[0][c] + x * colArr[1][c];
+                            } else if (colArr.length == 3) {
+                                v = Math.pow(y, 2) * colArr[0][c] + 2 * y * x * colArr[1][c] + Math.pow(x, 2) * colArr[2][c];
+                            } else if (colArr.length == 4) {
+                                v = Math.pow(y, 3) * colArr[0][c] + 3 * Math.pow(y, 2) * x * colArr[1][c] + 3 * y * Math.pow(x, 2) * colArr[2][c] + Math.pow(x, 3) * colArr[3][c];
+                            }
+                            return Math.trunc(v);
+                        });
+                    };
                 };
             };
 
-            if (options.inputFormat === 'hex' || options.inputFormat === 'rgb') {
-                var _loop = function (i) {
-                    var _ref3 = [].concat(_toConsumableArray(['r', 'g', 'b'].map(function (char) {
-                        return stepVal(char)(i);
-                    })));
+            var inc = 1.0 / (options.stops - 1);
 
-                    var r = _ref3[0];
-                    var g = _ref3[1];
-                    var b = _ref3[2];
+            var t = 0;
 
-                    outputArray.push("rgb(" + r + "," + g + "," + b + ")");
-                };
+            for (var i = 0; i < options.stops; i++) {
 
-                for (var i = 0; i < options.stops; i++) {
-                    _loop(i);
+                if (options.inputFormat == 'hex' || options.inputFormat == 'rgb') {
+                    var _propBezInterpolate = propBezInterpolate(['r', 'g', 'b'])(colorArray)(t);
+
+                    var _propBezInterpolate2 = _slicedToArray(_propBezInterpolate, 3);
+
+                    var r = _propBezInterpolate2[0];
+                    var g = _propBezInterpolate2[1];
+                    var b = _propBezInterpolate2[2];
+
+                    outputArray.push('rgb(' + r + ', ' + g + ', ' + b + ')');
+                } else if (options.inputFormat == 'hsl') {
+                    var _propBezInterpolate3 = propBezInterpolate(['h', 's', 'l'])(colorArray)(t);
+
+                    var _propBezInterpolate32 = _slicedToArray(_propBezInterpolate3, 3);
+
+                    var h = _propBezInterpolate32[0];
+                    var s = _propBezInterpolate32[1];
+                    var l = _propBezInterpolate32[2];
+
+                    outputArray.push('hsl(' + h + ', ' + s + '%, ' + l + '%)');
                 }
-            } else if (options.inputFormat === 'hsl') {
-                var _loop2 = function (i) {
-                    var _ref4 = [].concat(_toConsumableArray(['h', 's', 'l'].map(function (char) {
-                        return stepVal(char)(i);
-                    })));
-
-                    var h = _ref4[0];
-                    var s = _ref4[1];
-                    var l = _ref4[2];
-
-                    outputArray.push("hsl(" + h + ", " + s + "%, " + l + "%)");
-                };
-
-                for (var i = 0; i < options.stops; i++) {
-                    _loop2(i);
-                }
+                t += inc;
             }
         };
         options.colorArray = init(options);
