@@ -25,11 +25,9 @@
     <div id="content-wrapper">
         <div class="inner clearfix">
             <section id="main-content">
-
                 <iframe src="https://ghbtns.com/github-btn.html?user=siddharth11&repo=gradStop.js&type=star&count=true" frameborder="0" scrolling="0" width="85px" height="20px"></iframe>
                 <iframe src="https://ghbtns.com/github-btn.html?user=siddharth11&type=follow&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
-
-                <h4>JavaScript micro library to generate monotone color schemes and equidistant gradient stops</h4>
+                <h4>JavaScript micro library to generate gradient color stops</h4>
                 <h3>Usage:</h3>
                 <pre><code>var gradient1 = gradStop({
    stops: 5,
@@ -41,24 +39,13 @@ console.log(gradient1);
 rgb(52,56,56), rgb(39,97,105), rgb(26,139,154), rgb(13,181,203), rgb(0,223,252)
 </code></pre>
                 <p><img src="https://cdn.rawgit.com/Siddharth11/gradStop.js/master/gradient%20strip.png" alt="gradient1"></p>
-                <pre><code>var gradient2 = gradStop({
-   stops: 10,
-   inputFormat: 'hex',
-   colorArray: ['#343838', '#F6F6F6', '#00DFFC']
-});
-
-console.log(gradient2);
-rgb(52,56,56), rgb(90,94,94), rgb(129,132,132), rgb(168,170,170), rgb(207,208,208), 
-rgb(196,241,248), rgb(147,236,249), rgb(98,232,250), rgb(49,227,251), rgb(0,223,252)
-</code></pre>
-                <p><img src="https://rawgit.com/Siddharth11/gradStop.js/master/gradient%20strip2.png" alt="gradient2"></p>
                 <h4>
 <a id="default-parameters" class="anchor" href="#default-parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Default Parameters:</h4>
                 <ul>
                     <li>inputFormat: 'hex' <em><code>supports hex, rgb and hsl</code></em>
                     </li>
                     <li>stops: 5</li>
-                    <li>colorArray: ['#FFF', '#000'] <em><code>supports upto 3 values</code></em>
+                    <li>colorArray: ['#FFF', '#000'] <em><code>supports upto 4 values</code></em>
                     </li>
                 </ul>
                 <p>Both shorthand(#FFF) and standard(#FFFFFF) format hex values are supported.</p>
