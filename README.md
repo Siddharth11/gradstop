@@ -6,14 +6,15 @@
 
 ### Usage:
 
-    var gradient = gradStop({
-       stops: 5,
-       inputFormat: 'hex',
-       colorArray: ['#343838', '#00DFFC']
-    });
-    
-    console.log(gradient);
-    // rgb(52,56,56), rgb(39,97,105), rgb(26,139,154), rgb(13,181,203), rgb(0,223,252)
+``` javascript
+var gradient = gradStop({
+    stops: 5,
+    inputFormat: 'hex',
+    colorArray: ['#343838', '#00DFFC']
+});
+console.log(gradient);
+// rgb(52,56,56), rgb(39,97,105), rgb(26,139,154), rgb(13,181,203), rgb(0,223,252)
+```
 
 
 ![Gradient Strip](gradient strip.png)
