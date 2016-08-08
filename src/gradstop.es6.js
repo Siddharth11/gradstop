@@ -8,13 +8,13 @@
         return this.computeStops(options)
     }
 
-    // GradStop options
+    // GradStop deafult options
     GradStop.prototype.options = {
         // input color options: hex, rgb or hsl
         inputFormat: 'hex',
-        // number of equidistant color stops (cannot be less than colorArray.length)
+        // number of color stops (cannot be less than colorArray.length)
         stops: 5,
-        // input color array (currently supports only 2)
+        // input color array
         colorArray: ['#fff', '#000']
     }
 
