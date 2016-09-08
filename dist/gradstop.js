@@ -144,7 +144,7 @@ var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = 
                             } else if (colArr.length == 4) {
                                 v = Math.pow(y, 3) * colArr[0][c] + 3 * Math.pow(y, 2) * x * colArr[1][c] + 3 * y * Math.pow(x, 2) * colArr[2][c] + Math.pow(x, 3) * colArr[3][c];
                             }
-                            return Math.trunc(v);
+                            return mathTrunc(v);
                         });
                     };
                 };

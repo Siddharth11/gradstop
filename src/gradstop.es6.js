@@ -81,7 +81,7 @@
                     } else if (colArr.length == 4) {
                         v = ((y ** 3) * colArr[0][c]) + (3 * (y ** 2) * x * colArr[1][c]) + (3 * y * (x ** 2) * colArr[2][c]) + ((x ** 3) * colArr[3][c])
                     }
-                    return Math.trunc(v)
+                    return mathTrunc(v)
                 })
             }
 
