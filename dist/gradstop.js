@@ -32,7 +32,7 @@ var objectAssign = (function() {
     };
 })();;'use strict';
 
-var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 (function (glob) {
     function GradStop(options) {
@@ -129,13 +129,14 @@ var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = 
 
             var colorArray = options.colorArray;
 
-            // get r,g,b,h,s and l with Bezier interpolation
+            // get r,g,b,h,s and l with Bezier interpolation 
             // https://www.cl.cam.ac.uk/teaching/2000/AGraphHCI/SMEG/node3.html
             // Check issue #3 for more info
             var propBezInterpolate = function propBezInterpolate(charArr) {
                 return function (colArr) {
                     return function (x) {
-                        var y = 1 - x;
+                        var y = 1 - x,
+                            v = void 0;
                         return charArr.map(function (c) {
                             if (colArr.length == 2) {
                                 v = y * colArr[0][c] + x * colArr[1][c];
@@ -169,11 +170,11 @@ var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = 
                 } else if (options.inputFormat == 'hsl') {
                     var _propBezInterpolate3 = propBezInterpolate(['h', 's', 'l'])(colorArray)(t);
 
-                    var _propBezInterpolate32 = _slicedToArray(_propBezInterpolate3, 3);
+                    var _propBezInterpolate4 = _slicedToArray(_propBezInterpolate3, 3);
 
-                    var h = _propBezInterpolate32[0];
-                    var s = _propBezInterpolate32[1];
-                    var l = _propBezInterpolate32[2];
+                    var h = _propBezInterpolate4[0];
+                    var s = _propBezInterpolate4[1];
+                    var l = _propBezInterpolate4[2];
 
                     outputArray.push('hsl(' + h + ', ' + s + '%, ' + l + '%)');
                 }

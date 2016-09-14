@@ -72,7 +72,7 @@
             // https://www.cl.cam.ac.uk/teaching/2000/AGraphHCI/SMEG/node3.html
             // Check issue #3 for more info
             const propBezInterpolate = charArr => colArr => x => {
-                let y = 1 - x
+                let y = 1 - x, v
                 return charArr.map(c => {
                     if (colArr.length == 2) {
                         v = (y * colArr[0][c]) + (x * colArr[1][c])
