@@ -1,22 +1,22 @@
 module.exports = function(grunt) {
 
     grunt.initConfig({
-        babel: {
-            options: {
-                sourceMap: true
-            },
-            dist: {
-                files: {
-                    'dist/gradstop.js': 'src/gradstop.es6.js'
-                }
+        env: {
+            prod: {
+                NODE_ENV: 'production'
             }
         },
-        concat: {
-            options: {
-                separator: ';',
-            },
+        browserify: {
             dist: {
-                src: ['src/polyfill.js', 'dist/gradstop.js'],
+                options: {
+                    transform: [
+                        ['babelify']
+                    ],
+                    browserifyOptions: {
+                        debug: true
+                    }
+                },
+                src: ['src/*.js'],
                 dest: 'dist/gradstop.js'
             }
         },
@@ -33,7 +33,7 @@ module.exports = function(grunt) {
         watch: {
             scripts: {
                 files: ['src/*.js'],
-                tasks: ['babel', 'concat', 'uglify'],
+                tasks: ['browserify', 'uglify'],
                 options: {
                     spawn: false
                 }
@@ -41,11 +41,11 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-env');
+    grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-babel');
-    grunt.registerTask('default', ['watch']);
-
+    grunt.registerTask('default', ['env', 'watch']);
+    grunt.registerTask('build', ['env', 'browserify', 'uglify']);
 
 }
