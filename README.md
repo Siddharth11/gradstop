@@ -25,4 +25,12 @@ console.log(gradient);
  * stops: 5
  * colorArray: ['#fff', '#000'] \(supports upto 4 values)
 
-Both shorthand(#fff) and standard(#ffffff) format hex values are supported.
+Both shorthand(#fff) and standard(#ffffff) format hex values are supported.  
+
+#### Development  
+ - Install dependencies  
+ `npm install` or `yarn`
+ - Start JS compilation  
+ `npm run dev`
+ - Build  
+ `npm run build`
