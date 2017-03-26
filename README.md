@@ -17,8 +17,9 @@ console.log(gradient);
 // rgb(52,56,56), rgb(39,97,105), rgb(26,139,154), rgb(13,181,203), rgb(0,223,252)
 ```
 
+<img src="gradient strip.png" alt="Gradient Strip" />
 
-![Gradient Strip](gradient strip.png)
+<br />
 
 #### Default Parameters:
  * inputFormat: 'hex' (supports hex, rgb and hsl)
