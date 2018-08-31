@@ -2,7 +2,7 @@
 
 #### JavaScript micro library to generate gradient color stops
 
-| [Demo](http://codepen.io/Siddharth11/full/RPvJmO)  | [Download](https://raw.githubusercontent.com/Siddharth11/gradStop.js/master/dist/gradstop.min.js) |
+| [Demo](http://codepen.io/Siddharth11/full/RPvJmO)  | [Download](https://cdn.rawgit.com/Siddharth11/gradStop.js/b1733056/gradStopUMD.js) |
 |---|---|
 
 ### Usage:
@@ -26,12 +26,12 @@ console.log(gradient);
  * stops: 5
  * colorArray: ['#fff', '#000'] \(supports upto 4 values)
 
-Both shorthand(#fff) and standard(#ffffff) format hex values are supported.  
+Both shorthand(#fff) and standard(#ffffff) format hex values are supported.
 
-#### Development  
- - Install dependencies  
+#### Development
+ - Install dependencies
  `npm install` or `yarn`
- - Start JS compilation  
+ - Start JS compilation
  `npm run dev`
- - Build  
+ - Build
  `npm run build`
