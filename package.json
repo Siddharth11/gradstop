@@ -15,7 +15,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "babel src -d dist",
-    "generate-umd-bundle": "browserify index.js --standalone gradStop > gradStopUMD.js"
+    "generate-umd-bundle": "browserify index.js --standalone gradstop > gradstopUMD.js"
   },
   "repository": {
     "type": "git",

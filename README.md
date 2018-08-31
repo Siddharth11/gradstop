@@ -2,13 +2,13 @@
 
 #### JavaScript micro library to generate gradient color stops
 
-| [Demo](http://codepen.io/Siddharth11/full/RPvJmO)  | [Download](https://cdn.rawgit.com/Siddharth11/gradStop.js/b1733056/gradStopUMD.js) |
+| [Demo](http://codepen.io/Siddharth11/full/RPvJmO)  | [Download](https://cdn.rawgit.com/Siddharth11/gradStop.js/b1733056/gradstopUMD.js) |
 |---|---|
 
 ### Usage:
 
 ``` javascript
-var gradient = gradStop({
+var gradient = gradstop({
     stops: 5,
     inputFormat: 'hex',
     colorArray: ['#343838', '#00DFFC']

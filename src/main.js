@@ -2,7 +2,7 @@ import { objectAssign } from './polyfill'
 import { extractHEX, extractRGB, extractHSL, propBezInterpolate, returnRGBStr, returnHSLStr } from './utils'
 import defaultOptions from './defaultOptions'
 
-function GradStop(options) {
+function Gradstop(options) {
     options = objectAssign({}, this.options, options)
 
     if (options.stops < options.colorArray.length) {
@@ -12,10 +12,10 @@ function GradStop(options) {
 }
 
 // GradStop default options
-GradStop.prototype.options = defaultOptions
+Gradstop.prototype.options = defaultOptions
 
 // computeStops
-GradStop.prototype.computeStops = options => {
+Gradstop.prototype.computeStops = options => {
 
     let outputArray = []
 
@@ -57,6 +57,6 @@ GradStop.prototype.computeStops = options => {
 }
 
 // drop new keyword
-const gradStop = options => new GradStop(options)
+const gradstop = options => new Gradstop(options)
 
-module.exports = gradStop
+module.exports = gradstop

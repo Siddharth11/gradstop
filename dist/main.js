@@ -12,7 +12,7 @@ var _defaultOptions2 = _interopRequireDefault(_defaultOptions);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function GradStop(options) {
+function Gradstop(options) {
     options = (0, _polyfill.objectAssign)({}, this.options, options);
 
     if (options.stops < options.colorArray.length) {
@@ -22,10 +22,10 @@ function GradStop(options) {
 }
 
 // GradStop default options
-GradStop.prototype.options = _defaultOptions2.default;
+Gradstop.prototype.options = _defaultOptions2.default;
 
 // computeStops
-GradStop.prototype.computeStops = function (options) {
+Gradstop.prototype.computeStops = function (options) {
 
     var outputArray = [];
 
@@ -77,8 +77,8 @@ GradStop.prototype.computeStops = function (options) {
 };
 
 // drop new keyword
-var gradStop = function gradStop(options) {
-    return new GradStop(options);
+var gradstop = function gradstop(options) {
+    return new Gradstop(options);
 };
 
-module.exports = gradStop;
+module.exports = gradstop;
