@@ -1,6 +1,6 @@
 {
   "name": "gradstop",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "JavaScript micro library to generate monotone color schemes and equidistant gradient stops",
   "main": "index.js",
   "files": [
