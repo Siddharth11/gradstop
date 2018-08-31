@@ -1,4 +1,4 @@
-# GradStop.js
+# gradstop
 
 #### JavaScript micro library to generate gradient color stops
 
