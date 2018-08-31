@@ -1,6 +1,6 @@
 {
   "name": "gradstop",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "JavaScript micro library to generate monotone color schemes and equidistant gradient stops",
   "main": "index.js",
   "files": [
@@ -10,7 +10,14 @@
     "gradient strip.png"
   ],
   "keywords": [
-    "gradstop", "gradient", "stops", "color", "colors", "hex", "rgb", "hsl"
+    "gradstop",
+    "gradient",
+    "stops",
+    "color",
+    "colors",
+    "hex",
+    "rgb",
+    "hsl"
   ],
   "scripts": {
     "prebuild": "rimraf dist",
@@ -45,7 +52,10 @@
       [
         "babelify",
         {
-          "presets": ["env", "stage-2"]
+          "presets": [
+            "env",
+            "stage-2"
+          ]
         }
       ]
     ]
