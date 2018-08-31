@@ -7,12 +7,19 @@
 
 ### Usage:
 
+```
+npm install gradstop
+```
+
 ``` javascript
-var gradient = gradstop({
+import gradstop from 'gradstop';
+
+const gradient = gradstop({
     stops: 5,
     inputFormat: 'hex',
     colorArray: ['#343838', '#00DFFC']
 });
+
 console.log(gradient);
 // rgb(52,56,56), rgb(39,97,105), rgb(26,139,154), rgb(13,181,203), rgb(0,223,252)
 ```
@@ -27,11 +34,3 @@ console.log(gradient);
  * colorArray: ['#fff', '#000'] \(supports upto 4 values)
 
 Both shorthand(#fff) and standard(#ffffff) format hex values are supported.
-
-#### Development
- - Install dependencies
- `npm install` or `yarn`
- - Start JS compilation
- `npm run dev`
- - Build
- `npm run build`
