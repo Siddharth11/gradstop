@@ -1,4 +1,3 @@
 {
-  "presets": ["es2015"],
-  "plugins": ["transform-exponentiation-operator"]
+  "presets": ["env", "stage-2"]
 }
