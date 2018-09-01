@@ -3,16 +3,13 @@ import { extractHEX, extractRGB, extractHSL, propBezInterpolate, returnRGBStr, r
 import defaultOptions from './defaultOptions'
 
 function Gradstop(options) {
-    options = objectAssign({}, this.options, options)
+    options = objectAssign({}, defaultOptions, options)
 
     if (options.stops < options.colorArray.length) {
         throw "Number of stops cannot be less than colorArray.length"
     }
     return this.computeStops(options)
 }
-
-// GradStop default options
-Gradstop.prototype.options = defaultOptions
 
 // computeStops
 Gradstop.prototype.computeStops = options => {

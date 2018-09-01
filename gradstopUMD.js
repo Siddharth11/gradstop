@@ -57,16 +57,13 @@ function _interopRequireDefault(obj) {
 }
 
 function Gradstop(options) {
-    options = (0, _polyfill.objectAssign)({}, this.options, options);
+    options = (0, _polyfill.objectAssign)({}, _defaultOptions2.default, options);
 
     if (options.stops < options.colorArray.length) {
         throw "Number of stops cannot be less than colorArray.length";
     }
     return this.computeStops(options);
 }
-
-// GradStop default options
-Gradstop.prototype.options = _defaultOptions2.default;
 
 // computeStops
 Gradstop.prototype.computeStops = function (options) {
