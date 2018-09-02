@@ -1,5 +1,17 @@
 # gradstop
 
+<p>
+  <a href="https://www.npmjs.com/package/gradstop">
+    <img src="https://badge.fury.io/js/gradstop.svg" alt="NPM Version">
+  </a>
+  <a href="https://npmcharts.com/compare/gradstop">
+    <img src="https://img.shields.io/npm/dw/gradstop.svg" alt="NPM Downloads">
+  </a>
+  <a href="https://opensource.org/licenses/MIT">
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
+  </a>    
+</p>
+
 #### JavaScript micro library to generate gradient color stops
 
 | [Demo](http://codepen.io/Siddharth11/full/RPvJmO)  | [UMD Bundle](https://cdn.rawgit.com/Siddharth11/gradstop/3b5618ac/gradstopUMD.js) |
