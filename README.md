@@ -14,7 +14,7 @@
 
 #### JavaScript micro library to generate gradient color stops
 
-| [Demo](http://codepen.io/Siddharth11/full/RPvJmO)  | [UMD Bundle](https://cdn.rawgit.com/Siddharth11/gradstop/3b5618ac/gradstopUMD.js) |
+| [Demo](http://codepen.io/Siddharth11/full/RPvJmO)  | [UMD Bundle](https://cdn.jsdelivr.net/gh/Siddharth11/gradstop/gradstopUMD.js) |
 |---|---|
 
 ### Usage:
