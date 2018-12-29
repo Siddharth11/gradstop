@@ -97,7 +97,7 @@ Gradstop.prototype.computeStops = function (options) {
 
     for (var i = 0; i < options.stops; i++) {
       if (options.inputFormat === 'hex' || options.inputFormat === 'rgb') {
-        var _propBezInterpolate = (0, _utils.propBezInterpolate)(['r', 'g', 'b'])(colorArray)(t),
+        var _propBezInterpolate = (0, _utils.propBezInterpolate)(['r', 'g', 'b'], colorArray, t),
             _propBezInterpolate2 = _slicedToArray(_propBezInterpolate, 3),
             r = _propBezInterpolate2[0],
             g = _propBezInterpolate2[1],
@@ -105,7 +105,7 @@ Gradstop.prototype.computeStops = function (options) {
 
         outputArray.push((0, _utils.returnRGBStr)([r, g, b]));
       } else if (options.inputFormat === 'hsl') {
-        var _propBezInterpolate3 = (0, _utils.propBezInterpolate)(['h', 's', 'l'])(colorArray)(t),
+        var _propBezInterpolate3 = (0, _utils.propBezInterpolate)(['h', 's', 'l'], colorArray, t),
             _propBezInterpolate4 = _slicedToArray(_propBezInterpolate3, 3),
             h = _propBezInterpolate4[0],
             s = _propBezInterpolate4[1],
@@ -202,23 +202,19 @@ var fixedHexFormat = function fixedHexFormat(arr) {
 // get r,g,b,h,s and l with Bezier interpolation
 // https://www.cl.cam.ac.uk/teaching/2000/AGraphHCI/SMEG/node3.html
 // Check issue #3 for more info
-var propBezInterpolate = exports.propBezInterpolate = function propBezInterpolate(charArr) {
-  return function (colArr) {
-    return function (x) {
-      var y = 1 - x;
-      var v = void 0;
-      return charArr.map(function (c) {
-        if (colArr.length === 2) {
-          v = y * colArr[0][c] + x * colArr[1][c];
-        } else if (colArr.length === 3) {
-          v = Math.pow(y, 2) * colArr[0][c] + 2 * y * x * colArr[1][c] + Math.pow(x, 2) * colArr[2][c];
-        } else if (colArr.length === 4) {
-          v = Math.pow(y, 3) * colArr[0][c] + 3 * Math.pow(y, 2) * x * colArr[1][c] + 3 * y * Math.pow(x, 2) * colArr[2][c] + Math.pow(x, 3) * colArr[3][c];
-        }
-        return mathTrunc(v);
-      });
-    };
-  };
+var propBezInterpolate = exports.propBezInterpolate = function propBezInterpolate(charArr, colArr, x) {
+  var y = 1 - x;
+  var v = void 0;
+  return charArr.map(function (c) {
+    if (colArr.length === 2) {
+      v = y * colArr[0][c] + x * colArr[1][c];
+    } else if (colArr.length === 3) {
+      v = Math.pow(y, 2) * colArr[0][c] + 2 * y * x * colArr[1][c] + Math.pow(x, 2) * colArr[2][c];
+    } else if (colArr.length === 4) {
+      v = Math.pow(y, 3) * colArr[0][c] + 3 * Math.pow(y, 2) * x * colArr[1][c] + 3 * y * Math.pow(x, 2) * colArr[2][c] + Math.pow(x, 3) * colArr[3][c];
+    }
+    return mathTrunc(v);
+  });
 };
 
 var extractHEX = exports.extractHEX = function extractHEX(arr) {

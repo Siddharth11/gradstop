@@ -45,7 +45,7 @@ Gradstop.prototype.computeStops = function (options) {
 
     for (var i = 0; i < options.stops; i++) {
       if (options.inputFormat === 'hex' || options.inputFormat === 'rgb') {
-        var _propBezInterpolate = (0, _utils.propBezInterpolate)(['r', 'g', 'b'])(colorArray)(t),
+        var _propBezInterpolate = (0, _utils.propBezInterpolate)(['r', 'g', 'b'], colorArray, t),
             _propBezInterpolate2 = _slicedToArray(_propBezInterpolate, 3),
             r = _propBezInterpolate2[0],
             g = _propBezInterpolate2[1],
@@ -53,7 +53,7 @@ Gradstop.prototype.computeStops = function (options) {
 
         outputArray.push((0, _utils.returnRGBStr)([r, g, b]));
       } else if (options.inputFormat === 'hsl') {
-        var _propBezInterpolate3 = (0, _utils.propBezInterpolate)(['h', 's', 'l'])(colorArray)(t),
+        var _propBezInterpolate3 = (0, _utils.propBezInterpolate)(['h', 's', 'l'], colorArray, t),
             _propBezInterpolate4 = _slicedToArray(_propBezInterpolate3, 3),
             h = _propBezInterpolate4[0],
             s = _propBezInterpolate4[1],

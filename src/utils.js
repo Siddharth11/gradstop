@@ -32,7 +32,7 @@ const fixedHexFormat = arr =>
 // get r,g,b,h,s and l with Bezier interpolation
 // https://www.cl.cam.ac.uk/teaching/2000/AGraphHCI/SMEG/node3.html
 // Check issue #3 for more info
-export const propBezInterpolate = charArr => colArr => x => {
+export const propBezInterpolate = (charArr, colArr, x) => {
   let y = 1 - x;
   let v;
   return charArr.map(c => {
