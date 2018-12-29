@@ -37,7 +37,7 @@ var fixedHexFormat = function fixedHexFormat(arr) {
     });
 };
 
-// get r,g,b,h,s and l with Bezier interpolation 
+// get r,g,b,h,s and l with Bezier interpolation
 // https://www.cl.cam.ac.uk/teaching/2000/AGraphHCI/SMEG/node3.html
 // Check issue #3 for more info
 var propBezInterpolate = exports.propBezInterpolate = function propBezInterpolate(charArr) {
@@ -46,11 +46,11 @@ var propBezInterpolate = exports.propBezInterpolate = function propBezInterpolat
             var y = 1 - x,
                 v = void 0;
             return charArr.map(function (c) {
-                if (colArr.length == 2) {
+                if (colArr.length === 2) {
                     v = y * colArr[0][c] + x * colArr[1][c];
-                } else if (colArr.length == 3) {
+                } else if (colArr.length === 3) {
                     v = Math.pow(y, 2) * colArr[0][c] + 2 * y * x * colArr[1][c] + Math.pow(x, 2) * colArr[2][c];
-                } else if (colArr.length == 4) {
+                } else if (colArr.length === 4) {
                     v = Math.pow(y, 3) * colArr[0][c] + 3 * Math.pow(y, 2) * x * colArr[1][c] + 3 * y * Math.pow(x, 2) * colArr[2][c] + Math.pow(x, 3) * colArr[3][c];
                 }
                 return (0, _polyfill.mathTrunc)(v);

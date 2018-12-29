@@ -37,10 +37,10 @@ Gradstop.prototype.computeStops = options => {
 
         for (let i = 0; i < options.stops; i++) {
 
-            if (options.inputFormat == 'hex' || options.inputFormat == 'rgb') {
+            if (options.inputFormat === 'hex' || options.inputFormat === 'rgb') {
                 let [r, g, b] = propBezInterpolate(['r', 'g', 'b'])(colorArray)(t)
                 outputArray.push(returnRGBStr([r, g, b]))
-            } else if (options.inputFormat == 'hsl') {
+            } else if (options.inputFormat === 'hsl') {
                 let [h, s, l] = propBezInterpolate(['h', 's', 'l'])(colorArray)(t)
                 outputArray.push(returnHSLStr([h, s, l]))
             }

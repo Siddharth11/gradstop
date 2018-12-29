@@ -17,17 +17,17 @@ const fixedHexFormat = arr => arr.map(c => {
     }
 })
 
-// get r,g,b,h,s and l with Bezier interpolation 
+// get r,g,b,h,s and l with Bezier interpolation
 // https://www.cl.cam.ac.uk/teaching/2000/AGraphHCI/SMEG/node3.html
 // Check issue #3 for more info
 export const propBezInterpolate = charArr => colArr => x => {
     let y = 1 - x, v
     return charArr.map(c => {
-        if (colArr.length == 2) {
+        if (colArr.length === 2) {
             v = (y * colArr[0][c]) + (x * colArr[1][c])
-        } else if (colArr.length == 3) {
+        } else if (colArr.length === 3) {
             v = ((y ** 2) * colArr[0][c]) + (2 * y * x * colArr[1][c]) + ((x ** 2) * colArr[2][c])
-        } else if (colArr.length == 4) {
+        } else if (colArr.length === 4) {
             v = ((y ** 3) * colArr[0][c]) + (3 * (y ** 2) * x * colArr[1][c]) + (3 * y * (x ** 2) * colArr[2][c]) + ((x ** 3) * colArr[3][c])
         }
         return mathTrunc(v)
