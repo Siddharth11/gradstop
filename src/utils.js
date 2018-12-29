@@ -1,4 +1,11 @@
-import { mathTrunc } from './polyfill';
+const mathTrunc = (() => {
+  if (Math.trunc) {
+    return Math.trunc;
+  }
+  return function(x) {
+    return x === 0 ? x : x < 0 ? Math.ceil(x) : Math.floor(x);
+  };
+})();
 
 const hexToRgb = hex => {
   let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex),

@@ -1,4 +1,3 @@
-import { objectAssign } from './polyfill';
 import {
   extractHEX,
   extractRGB,
@@ -10,7 +9,7 @@ import {
 import defaultOptions from './defaultOptions';
 
 function Gradstop(options) {
-  options = objectAssign({}, defaultOptions, options);
+  options = { ...defaultOptions, ...options };
 
   if (options.stops < options.colorArray.length) {
     throw 'Number of stops cannot be less than colorArray.length';

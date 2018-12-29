@@ -3,11 +3,17 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.returnHSLStr = exports.returnRGBStr = exports.extractHSL = exports.extractRGB = exports.extractHEX = exports.propBezInterpolate = undefined;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-var _polyfill = require('./polyfill');
+var mathTrunc = function () {
+  if (Math.trunc) {
+    return Math.trunc;
+  }
+  return function (x) {
+    return x === 0 ? x : x < 0 ? Math.ceil(x) : Math.floor(x);
+  };
+}();
 
 var hexToRgb = function hexToRgb(hex) {
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex),
@@ -53,7 +59,7 @@ var propBezInterpolate = exports.propBezInterpolate = function propBezInterpolat
         } else if (colArr.length === 4) {
           v = Math.pow(y, 3) * colArr[0][c] + 3 * Math.pow(y, 2) * x * colArr[1][c] + 3 * y * Math.pow(x, 2) * colArr[2][c] + Math.pow(x, 3) * colArr[3][c];
         }
-        return (0, _polyfill.mathTrunc)(v);
+        return mathTrunc(v);
       });
     };
   };

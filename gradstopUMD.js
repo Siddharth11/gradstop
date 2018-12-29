@@ -44,7 +44,15 @@ var _slicedToArray = function () {
   };
 }();
 
-var _polyfill = require('./polyfill');
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }return target;
+};
 
 var _utils = require('./utils');
 
@@ -57,7 +65,7 @@ function _interopRequireDefault(obj) {
 }
 
 function Gradstop(options) {
-  options = (0, _polyfill.objectAssign)({}, _defaultOptions2.default, options);
+  options = _extends({}, _defaultOptions2.default, options);
 
   if (options.stops < options.colorArray.length) {
     throw 'Number of stops cannot be less than colorArray.length';
@@ -121,53 +129,12 @@ var gradstop = function gradstop(options) {
 
 module.exports = gradstop;
 
-},{"./defaultOptions":1,"./polyfill":3,"./utils":4}],3:[function(require,module,exports){
+},{"./defaultOptions":1,"./utils":3}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-// Math.trunc polyfill
-var mathTrunc = exports.mathTrunc = function () {
-  if (Math.trunc) {
-    return Math.trunc;
-  }
-  return function (x) {
-    return x === 0 ? x : x < 0 ? Math.ceil(x) : Math.floor(x);
-  };
-}();
-
-// Object.assign polyfill
-var objectAssign = exports.objectAssign = function () {
-  if (Object.assign) {
-    return Object.assign;
-  }
-  return function (target) {
-    if (target === undefined || target === null) {
-      throw new TypeError('Cannot convert undefined or null to object');
-    }
-    var output = Object(target);
-    for (var index = 1; index < arguments.length; index++) {
-      var source = arguments[index];
-      if (source !== undefined && source !== null) {
-        for (var nextKey in source) {
-          if (source.hasOwnProperty(nextKey)) {
-            output[nextKey] = source[nextKey];
-          }
-        }
-      }
-    }
-    return output;
-  };
-}();
-
-},{}],4:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.returnHSLStr = exports.returnRGBStr = exports.extractHSL = exports.extractRGB = exports.extractHEX = exports.propBezInterpolate = undefined;
 
 var _slicedToArray = function () {
   function sliceIterator(arr, i) {
@@ -195,7 +162,14 @@ var _slicedToArray = function () {
   };
 }();
 
-var _polyfill = require('./polyfill');
+var mathTrunc = function () {
+  if (Math.trunc) {
+    return Math.trunc;
+  }
+  return function (x) {
+    return x === 0 ? x : x < 0 ? Math.ceil(x) : Math.floor(x);
+  };
+}();
 
 var hexToRgb = function hexToRgb(hex) {
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex),
@@ -241,7 +215,7 @@ var propBezInterpolate = exports.propBezInterpolate = function propBezInterpolat
         } else if (colArr.length === 4) {
           v = Math.pow(y, 3) * colArr[0][c] + 3 * Math.pow(y, 2) * x * colArr[1][c] + 3 * y * Math.pow(x, 2) * colArr[2][c] + Math.pow(x, 3) * colArr[3][c];
         }
-        return (0, _polyfill.mathTrunc)(v);
+        return mathTrunc(v);
       });
     };
   };
@@ -283,10 +257,10 @@ var returnHSLStr = exports.returnHSLStr = function returnHSLStr(arr) {
   return 'hsl(' + arr[0] + ', ' + arr[1] + '%, ' + arr[2] + '%)';
 };
 
-},{"./polyfill":3}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 'use strict';
 
 module.exports = require('./dist/main.js');
 
-},{"./dist/main.js":2}]},{},[5])(5)
+},{"./dist/main.js":2}]},{},[4])(4)
 });
