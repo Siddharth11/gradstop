@@ -13,69 +13,66 @@ var _defaultOptions2 = _interopRequireDefault(_defaultOptions);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function Gradstop(options) {
-    options = (0, _polyfill.objectAssign)({}, _defaultOptions2.default, options);
+  options = (0, _polyfill.objectAssign)({}, _defaultOptions2.default, options);
 
-    if (options.stops < options.colorArray.length) {
-        throw "Number of stops cannot be less than colorArray.length";
-    }
-    return this.computeStops(options);
+  if (options.stops < options.colorArray.length) {
+    throw 'Number of stops cannot be less than colorArray.length';
+  }
+  return this.computeStops(options);
 }
 
 // computeStops
 Gradstop.prototype.computeStops = function (options) {
+  var outputArray = [];
 
-    var outputArray = [];
+  var init = function init(options) {
+    switch (options.inputFormat) {
+      case 'hex':
+        return (0, _utils.extractHEX)(options.colorArray);
+      case 'rgb':
+        return (0, _utils.extractRGB)(options.colorArray);
+      case 'hsl':
+        return (0, _utils.extractHSL)(options.colorArray);
+    }
+  };
 
-    var init = function init(options) {
-        switch (options.inputFormat) {
-            case 'hex':
-                return (0, _utils.extractHEX)(options.colorArray);
-            case 'rgb':
-                return (0, _utils.extractRGB)(options.colorArray);
-            case 'hsl':
-                return (0, _utils.extractHSL)(options.colorArray);
-        }
-    };
+  var stopsGenerator = function stopsGenerator(options) {
+    var colorArray = options.colorArray;
 
-    var stopsGenerator = function stopsGenerator(options) {
+    var inc = 1.0 / (options.stops - 1);
 
-        var colorArray = options.colorArray;
+    var t = 0;
 
-        var inc = 1.0 / (options.stops - 1);
+    for (var i = 0; i < options.stops; i++) {
+      if (options.inputFormat === 'hex' || options.inputFormat === 'rgb') {
+        var _propBezInterpolate = (0, _utils.propBezInterpolate)(['r', 'g', 'b'])(colorArray)(t),
+            _propBezInterpolate2 = _slicedToArray(_propBezInterpolate, 3),
+            r = _propBezInterpolate2[0],
+            g = _propBezInterpolate2[1],
+            b = _propBezInterpolate2[2];
 
-        var t = 0;
+        outputArray.push((0, _utils.returnRGBStr)([r, g, b]));
+      } else if (options.inputFormat === 'hsl') {
+        var _propBezInterpolate3 = (0, _utils.propBezInterpolate)(['h', 's', 'l'])(colorArray)(t),
+            _propBezInterpolate4 = _slicedToArray(_propBezInterpolate3, 3),
+            h = _propBezInterpolate4[0],
+            s = _propBezInterpolate4[1],
+            l = _propBezInterpolate4[2];
 
-        for (var i = 0; i < options.stops; i++) {
+        outputArray.push((0, _utils.returnHSLStr)([h, s, l]));
+      }
+      t += inc;
+    }
+  };
+  options.colorArray = init(options);
+  stopsGenerator(options);
 
-            if (options.inputFormat === 'hex' || options.inputFormat === 'rgb') {
-                var _propBezInterpolate = (0, _utils.propBezInterpolate)(['r', 'g', 'b'])(colorArray)(t),
-                    _propBezInterpolate2 = _slicedToArray(_propBezInterpolate, 3),
-                    r = _propBezInterpolate2[0],
-                    g = _propBezInterpolate2[1],
-                    b = _propBezInterpolate2[2];
-
-                outputArray.push((0, _utils.returnRGBStr)([r, g, b]));
-            } else if (options.inputFormat === 'hsl') {
-                var _propBezInterpolate3 = (0, _utils.propBezInterpolate)(['h', 's', 'l'])(colorArray)(t),
-                    _propBezInterpolate4 = _slicedToArray(_propBezInterpolate3, 3),
-                    h = _propBezInterpolate4[0],
-                    s = _propBezInterpolate4[1],
-                    l = _propBezInterpolate4[2];
-
-                outputArray.push((0, _utils.returnHSLStr)([h, s, l]));
-            }
-            t += inc;
-        }
-    };
-    options.colorArray = init(options);
-    stopsGenerator(options);
-
-    return outputArray;
+  return outputArray;
 };
 
 // drop new keyword
 var gradstop = function gradstop(options) {
-    return new Gradstop(options);
+  return new Gradstop(options);
 };
 
 module.exports = gradstop;
