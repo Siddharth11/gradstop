@@ -5,15 +5,13 @@ import {
   propBezInterpolate,
   returnRGBStr,
   returnHSLStr,
+  handleErrors,
 } from './utils';
 import defaultOptions from './defaultOptions';
 
 function Gradstop(options) {
   options = { ...defaultOptions, ...options };
-
-  if (options.stops < options.colorArray.length) {
-    throw 'Number of stops cannot be less than colorArray.length';
-  }
+  handleErrors(options);
   return this.computeStops(options);
 }
 

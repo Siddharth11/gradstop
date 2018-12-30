@@ -14,10 +14,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function Gradstop(options) {
   options = _extends({}, _defaultOptions2.default, options);
-
-  if (options.stops < options.colorArray.length) {
-    throw 'Number of stops cannot be less than colorArray.length';
-  }
+  (0, _utils.handleErrors)(options);
   return this.computeStops(options);
 }
 

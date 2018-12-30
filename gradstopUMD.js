@@ -66,10 +66,7 @@ function _interopRequireDefault(obj) {
 
 function Gradstop(options) {
   options = _extends({}, _defaultOptions2.default, options);
-
-  if (options.stops < options.colorArray.length) {
-    throw 'Number of stops cannot be less than colorArray.length';
-  }
+  (0, _utils.handleErrors)(options);
   return this.computeStops(options);
 }
 
@@ -170,6 +167,36 @@ var mathTrunc = function () {
     return x === 0 ? x : x < 0 ? Math.ceil(x) : Math.floor(x);
   };
 }();
+
+var handleErrors = exports.handleErrors = function handleErrors(options) {
+  var inputFormat = options.inputFormat,
+      stops = options.stops,
+      colorArray = options.colorArray;
+
+  if (typeof inputFormat !== 'string') {
+    throw 'inputFormat should be a string';
+  }
+
+  var supportedFormats = ['hex', 'rgb', 'hsl'];
+  var isValidFormat = supportedFormats.indexOf(inputFormat.toLowerCase()) !== -1;
+  if (!isValidFormat) {
+    throw 'Invalid inputFormat value, supported: hex, rgb and hsl';
+  }
+
+  if (!Number.isInteger(stops)) {
+    throw 'stops should be an integer';
+  }
+
+  if (!Array.isArray(colorArray) || !colorArray.every(function (item) {
+    return typeof item === 'string';
+  })) {
+    throw 'colorArray should be an array of color strings';
+  }
+
+  if (stops < colorArray.length) {
+    throw 'Number of stops cannot be less than colorArray.length';
+  }
+};
 
 var hexToRgb = function hexToRgb(hex) {
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex),
