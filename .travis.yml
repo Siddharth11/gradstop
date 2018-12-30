@@ -1,0 +1,21 @@
+sudo: false
+language: node_js
+node_js:
+  - "stable"
+
+cache:
+  directories:
+    - "node_modules"
+    - ~/.npm
+
+before_install:
+    - npm install -g npm@latest
+
+jobs:
+  include:
+    - stage: Install
+      script: npm install
+    - stage: Build
+      script: npm run build
+    - stage: Test
+      script: npm test
