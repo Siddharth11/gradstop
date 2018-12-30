@@ -10,7 +10,7 @@
   <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
   </a>
-  <a href="https://opensource.org/licenses/MIT">
+  <a href="https://travis-ci.com/Siddharth11/gradstop">
     <img src="https://travis-ci.com/Siddharth11/gradstop.svg?branch=master" alt="Build Status">
   </a>
 </p>
