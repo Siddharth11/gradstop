@@ -26,7 +26,8 @@
     "patch": "npm version patch && npm publish",
     "minor": "npm version minor && npm publish",
     "major": "npm version major && npm publish",
-    "postpublish": "git push origin master --follow-tags"
+    "postpublish": "git push origin master --follow-tags",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -40,11 +41,14 @@
   "homepage": "https://github.com/Siddharth11/gradstop#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-jest": "^23.6.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-es2017": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "babelify": "^8.0.0",
     "browserify": "^16.2.3",
+    "jest": "^23.6.0",
+    "jest-cli": "^23.6.0",
     "rimraf": "^2.6.2"
   },
   "browserify": {
@@ -59,5 +63,10 @@
         }
       ]
     ]
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.js?$": "babel-jest"
+    }
   }
 }
