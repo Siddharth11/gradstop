@@ -7,6 +7,37 @@ const mathTrunc = (() => {
   };
 })();
 
+export const handleErrors = options => {
+  const { inputFormat, stops, colorArray } = options;
+
+  if (typeof inputFormat !== 'string') {
+    throw 'inputFormat should be a string';
+  }
+
+  const supportedFormats = ['hex', 'rgb', 'hsl'];
+  const isValidFormat =
+    supportedFormats.indexOf(inputFormat.toLowerCase()) !== -1;
+  if (!isValidFormat) {
+    throw 'Invalid inputFormat value, supported: hex, rgb and hsl';
+  }
+
+  if (!Number.isInteger(stops)) {
+    throw 'stops should be an integer';
+  }
+
+  if (
+    !Array.isArray(colorArray) ||
+    !colorArray.every(item => typeof item === 'string')
+  ) {
+    throw 'colorArray should be an array of color strings';
+  }
+
+  if (stops < colorArray.length) {
+    throw 'Number of stops cannot be less than colorArray.length';
+  }
+
+};
+
 const hexToRgb = hex => {
   let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex),
     [, r, g, b] = result.map(val => parseInt(val, 16));
