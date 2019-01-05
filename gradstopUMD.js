@@ -114,8 +114,9 @@ var handleErrors = exports.handleErrors = function handleErrors(options) {
 };
 
 var hexToRgb = exports.hexToRgb = function hexToRgb(hex) {
-  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex),
-      _result$map = result.map(function (val) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+
+  var _result$map = result.map(function (val) {
     return parseInt(val, 16);
   }),
       _result$map2 = _slicedToArray(_result$map, 4),
@@ -151,7 +152,7 @@ var extractRGB = exports.extractRGB = function extractRGB(arrayOfRGBStrings) {
         g = _str$match2[1],
         b = _str$match2[2];
 
-    return { r: r, g: g, b: b };
+    return { r: Number(r), g: Number(g), b: Number(b) };
   });
 };
 
@@ -163,7 +164,7 @@ var extractHSL = exports.extractHSL = function extractHSL(arrayOfHSLStrings) {
         s = _str$match4[1],
         l = _str$match4[2];
 
-    return { h: h, s: s, l: l };
+    return { h: Number(h), s: Number(s), l: Number(l) };
   });
 };
 

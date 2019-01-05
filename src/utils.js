@@ -38,8 +38,8 @@ export const handleErrors = options => {
 };
 
 export const hexToRgb = hex => {
-  let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex),
-    [, r, g, b] = result.map(val => parseInt(val, 16));
+  let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  let [, r, g, b] = result.map(val => parseInt(val, 16));
   return result ? { r, g, b } : null;
 };
 
@@ -59,13 +59,13 @@ export const extractHEX = arrayOfHexStrings =>
 export const extractRGB = arrayOfRGBStrings =>
   arrayOfRGBStrings.map(str => {
     const [r, g, b] = str.match(/\d+/g);
-    return { r, g, b };
+    return { r: Number(r), g: Number(g), b: Number(b) };
   });
 
 export const extractHSL = arrayOfHSLStrings =>
   arrayOfHSLStrings.map(str => {
     const [h, s, l] = str.match(/\d+/g);
-    return { h, s, l };
+    return { h: Number(h), s: Number(s), l: Number(l) };
   });
 
 export const getRGBString = ({ r, g, b }) => `rgb(${r}, ${g}, ${b})`;
