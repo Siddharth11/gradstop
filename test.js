@@ -1,4 +1,5 @@
 import gradstop from './src';
+import * as utils from './src/utils';
 
 describe('gradstop', () => {
   let options;
@@ -208,5 +209,50 @@ describe('gradstop', () => {
         'Number of stops cannot be less than colorArray.length'
       );
     });
+  });
+});
+
+describe('utility function', () => {
+  it('hexToRgb converts a hex string to rgb object', () => {
+    expect(utils.hexToRgb('#343838')).toEqual({ r: 52, g: 56, b: 56 });
+  });
+
+  it('standardizeHexValues converts an array of shorthand hex strings into standard format', () => {
+    expect(utils.standardizeHexValues(['#343', '#eae'])).toEqual([
+      '#334433',
+      '#eeaaee',
+    ]);
+  });
+
+  it('extractHEX takes an array of hex strings and generates an array of rgb objects', () => {
+    expect(utils.extractHEX(['#343838', '#00DFFC'])).toEqual([
+      { r: 52, g: 56, b: 56 },
+      { r: 0, g: 223, b: 252 },
+    ]);
+  });
+
+  it('extractRGB takes an array of rgb strings and generates an array of rgb objects', () => {
+    expect(utils.extractRGB(['rgb(52, 56, 56)', 'rgb(0, 223, 252)'])).toEqual([
+      { r: 52, g: 56, b: 56 },
+      { r: 0, g: 223, b: 252 },
+    ]);
+  });
+
+  it('extractHSL takes an array of hsl strings and generates an array of hsl objects', () => {
+    expect(
+      utils.extractHSL(['hsl(180, 4%, 21%)', 'hsl(187, 100%, 49%)'])
+    ).toEqual([{ h: 180, s: 4, l: 21 }, { h: 187, s: 100, l: 49 }]);
+  });
+
+  it('getRGBString takes an rgb object and returns an rgb string', () => {
+    expect(utils.getRGBString({ r: 52, g: 56, b: 56 })).toEqual(
+      'rgb(52, 56, 56)'
+    );
+  });
+
+  it('getHSLString takes an hsl object and returns an hsl string', () => {
+    expect(utils.getHSLString({ h: 180, s: 4, l: 21 })).toEqual(
+      'hsl(180, 4%, 21%)'
+    );
   });
 });
