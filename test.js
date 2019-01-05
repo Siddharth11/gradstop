@@ -1,4 +1,4 @@
-import gradstop from './src/main';
+import gradstop from './src';
 
 describe('gradstop', () => {
   let options;

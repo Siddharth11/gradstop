@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 var mathTrunc = function () {
@@ -59,71 +61,126 @@ var hexToRgb = function hexToRgb(hex) {
   return result ? { r: r, g: g, b: b } : null;
 };
 
-var splitSliceJoin = function splitSliceJoin(string, start, end) {
-  return string.split('').slice(start, end).join('');
-};
-
 // if hex and defined as #fff then convert it to standard 7 letter format #ffffff
-var fixedHexFormat = function fixedHexFormat(arr) {
-  return arr.map(function (c) {
-    if (c.length === 4) {
-      return '#' + (c[1] + c[1] + c[2] + c[2] + c[3] + c[3]);
-    } else if (c.length === 7) {
-      return c;
+var standardizeHexValues = function standardizeHexValues(arrayOfHexStrings) {
+  return arrayOfHexStrings.map(function (str) {
+    if (str.length === 4) {
+      return '#' + (str[1] + str[1] + str[2] + str[2] + str[3] + str[3]);
+    } else if (str.length === 7) {
+      return str;
     }
   });
 };
 
-// get r,g,b,h,s and l with Bezier interpolation
-// https://www.cl.cam.ac.uk/teaching/2000/AGraphHCI/SMEG/node3.html
-// Check issue #3 for more info
-var propBezInterpolate = exports.propBezInterpolate = function propBezInterpolate(charArr, colArr, x) {
-  var y = 1 - x;
-  var v = void 0;
-  return charArr.map(function (c) {
-    if (colArr.length === 2) {
-      v = y * colArr[0][c] + x * colArr[1][c];
-    } else if (colArr.length === 3) {
-      v = Math.pow(y, 2) * colArr[0][c] + 2 * y * x * colArr[1][c] + Math.pow(x, 2) * colArr[2][c];
-    } else if (colArr.length === 4) {
-      v = Math.pow(y, 3) * colArr[0][c] + 3 * Math.pow(y, 2) * x * colArr[1][c] + 3 * y * Math.pow(x, 2) * colArr[2][c] + Math.pow(x, 3) * colArr[3][c];
-    }
-    return mathTrunc(v);
+var extractHEX = exports.extractHEX = function extractHEX(arrayOfHexStrings) {
+  return standardizeHexValues(arrayOfHexStrings).map(function (str) {
+    return hexToRgb(str);
   });
 };
 
-var extractHEX = exports.extractHEX = function extractHEX(arr) {
-  return fixedHexFormat(arr).map(function (c) {
-    return hexToRgb(c);
-  });
-};
-
-var extractRGB = exports.extractRGB = function extractRGB(arr) {
-  return arr.map(function (c) {
-    var _splitSliceJoin$split = splitSliceJoin(c, 4, -1).split(','),
-        _splitSliceJoin$split2 = _slicedToArray(_splitSliceJoin$split, 3),
-        r = _splitSliceJoin$split2[0],
-        g = _splitSliceJoin$split2[1],
-        b = _splitSliceJoin$split2[2];
+var extractRGB = exports.extractRGB = function extractRGB(arrayOfRGBStrings) {
+  return arrayOfRGBStrings.map(function (str) {
+    var _str$match = str.match(/\d+/g),
+        _str$match2 = _slicedToArray(_str$match, 3),
+        r = _str$match2[0],
+        g = _str$match2[1],
+        b = _str$match2[2];
 
     return { r: r, g: g, b: b };
   });
 };
 
-var extractHSL = exports.extractHSL = function extractHSL(arr) {
-  return arr.map(function (c) {
-    c = splitSliceJoin(c, 4, -1).split(',');
-    var h = c[0];
-    var s = splitSliceJoin(c[1], 0, -1);
-    var l = splitSliceJoin(c[2], 0, -1);
+var extractHSL = exports.extractHSL = function extractHSL(arrayOfHSLStrings) {
+  return arrayOfHSLStrings.map(function (str) {
+    var _str$match3 = str.match(/\d+/g),
+        _str$match4 = _slicedToArray(_str$match3, 3),
+        h = _str$match4[0],
+        s = _str$match4[1],
+        l = _str$match4[2];
+
     return { h: h, s: s, l: l };
   });
 };
 
-var returnRGBStr = exports.returnRGBStr = function returnRGBStr(arr) {
-  return 'rgb(' + arr[0] + ', ' + arr[1] + ', ' + arr[2] + ')';
+var getRGBString = exports.getRGBString = function getRGBString(_ref) {
+  var r = _ref.r,
+      g = _ref.g,
+      b = _ref.b;
+  return 'rgb(' + r + ', ' + g + ', ' + b + ')';
+};
+var getHSLString = exports.getHSLString = function getHSLString(_ref2) {
+  var h = _ref2.h,
+      s = _ref2.s,
+      l = _ref2.l;
+  return 'hsl(' + h + ', ' + s + '%, ' + arr[l] + '%)';
 };
 
-var returnHSLStr = exports.returnHSLStr = function returnHSLStr(arr) {
-  return 'hsl(' + arr[0] + ', ' + arr[1] + '%, ' + arr[2] + '%)';
+// get r,g,b,h,s and l with Bezier interpolation
+// https://www.cl.cam.ac.uk/teaching/2000/AGraphHCI/SMEG/node3.html
+// Check issue #3 for more info
+var bezierInterpolation = exports.bezierInterpolation = function bezierInterpolation(colorTypeChars) {
+  return function (colArr, x) {
+    var y = 1 - x;
+    var v = void 0;
+    return colorTypeChars.map(function (c) {
+      if (colArr.length === 2) {
+        v = y * colArr[0][c] + x * colArr[1][c];
+      } else if (colArr.length === 3) {
+        v = Math.pow(y, 2) * colArr[0][c] + 2 * y * x * colArr[1][c] + Math.pow(x, 2) * colArr[2][c];
+      } else if (colArr.length === 4) {
+        v = Math.pow(y, 3) * colArr[0][c] + 3 * Math.pow(y, 2) * x * colArr[1][c] + 3 * y * Math.pow(x, 2) * colArr[2][c] + Math.pow(x, 3) * colArr[3][c];
+      }
+      return mathTrunc(v);
+    });
+  };
+};
+
+var rgbBezierInterpolation = bezierInterpolation(['r', 'g', 'b']);
+var hslBezierInterpolation = bezierInterpolation(['h', 's', 'l']);
+
+var transformColorStringsToObjects = exports.transformColorStringsToObjects = function transformColorStringsToObjects(options) {
+  switch (options.inputFormat) {
+    case 'hex':
+      return extractHEX(options.colorArray);
+    case 'rgb':
+      return extractRGB(options.colorArray);
+    case 'hsl':
+      return extractHSL(options.colorArray);
+  }
+};
+
+var stopsGenerator = exports.stopsGenerator = function stopsGenerator(options) {
+  var outputArray = [];
+  var inc = 1.0 / (options.stops - 1);
+
+  var t = 0;
+
+  for (var i = 0; i < options.stops; i++) {
+    if (options.inputFormat === 'hex' || options.inputFormat === 'rgb') {
+      var _rgbBezierInterpolati = rgbBezierInterpolation(options.colorArray, t),
+          _rgbBezierInterpolati2 = _slicedToArray(_rgbBezierInterpolati, 3),
+          r = _rgbBezierInterpolati2[0],
+          g = _rgbBezierInterpolati2[1],
+          b = _rgbBezierInterpolati2[2];
+
+      outputArray.push(getRGBString({ r: r, g: g, b: b }));
+    } else if (options.inputFormat === 'hsl') {
+      var _hslBezierInterpolati = hslBezierInterpolation(options.colorArray, t),
+          _hslBezierInterpolati2 = _slicedToArray(_hslBezierInterpolati, 3),
+          h = _hslBezierInterpolati2[0],
+          s = _hslBezierInterpolati2[1],
+          l = _hslBezierInterpolati2[2];
+
+      outputArray.push(getHSLString({ h: h, s: s, l: l }));
+    }
+    t += inc;
+  }
+
+  return outputArray;
+};
+
+var getStops = exports.getStops = function getStops(options) {
+  var colorArray = transformColorStringsToObjects(options);
+  var optionsWithFormattedColorsValues = _extends({}, options, { colorArray: colorArray });
+  return stopsGenerator(optionsWithFormattedColorsValues);
 };
