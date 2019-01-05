@@ -184,7 +184,7 @@ var getHSLString = exports.getHSLString = function getHSLString(_ref2) {
 // get r,g,b,h,s and l with Bezier interpolation
 // https://www.cl.cam.ac.uk/teaching/2000/AGraphHCI/SMEG/node3.html
 // Check issue #3 for more info
-var bezierInterpolation = exports.bezierInterpolation = function bezierInterpolation(colorTypeChars) {
+var bezierInterpolation = function bezierInterpolation(colorTypeChars) {
   return function (colArr, x) {
     var y = 1 - x;
     var v = void 0;
@@ -204,7 +204,7 @@ var bezierInterpolation = exports.bezierInterpolation = function bezierInterpola
 var rgbBezierInterpolation = bezierInterpolation(['r', 'g', 'b']);
 var hslBezierInterpolation = bezierInterpolation(['h', 's', 'l']);
 
-var transformColorStringsToObjects = exports.transformColorStringsToObjects = function transformColorStringsToObjects(options) {
+var transformColorStringsToObjects = function transformColorStringsToObjects(options) {
   switch (options.inputFormat) {
     case 'hex':
       return extractHEX(options.colorArray);
@@ -215,7 +215,7 @@ var transformColorStringsToObjects = exports.transformColorStringsToObjects = fu
   }
 };
 
-var stopsGenerator = exports.stopsGenerator = function stopsGenerator(options) {
+var stopsGenerator = function stopsGenerator(options) {
   var outputArray = [];
   var increment = 1.0 / (options.stops - 1);
 

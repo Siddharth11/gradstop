@@ -74,7 +74,7 @@ export const getHSLString = ({ h, s, l }) => `hsl(${h}, ${s}%, ${l}%)`;
 // get r,g,b,h,s and l with Bezier interpolation
 // https://www.cl.cam.ac.uk/teaching/2000/AGraphHCI/SMEG/node3.html
 // Check issue #3 for more info
-export const bezierInterpolation = colorTypeChars => (colArr, x) => {
+const bezierInterpolation = colorTypeChars => (colArr, x) => {
   let y = 1 - x;
   let v;
   return colorTypeChars.map(c => {
@@ -99,7 +99,7 @@ export const bezierInterpolation = colorTypeChars => (colArr, x) => {
 const rgbBezierInterpolation = bezierInterpolation(['r', 'g', 'b']);
 const hslBezierInterpolation = bezierInterpolation(['h', 's', 'l']);
 
-export const transformColorStringsToObjects = options => {
+const transformColorStringsToObjects = options => {
   switch (options.inputFormat) {
     case 'hex':
       return extractHEX(options.colorArray);
@@ -110,7 +110,7 @@ export const transformColorStringsToObjects = options => {
   }
 };
 
-export const stopsGenerator = options => {
+const stopsGenerator = options => {
   const outputArray = [];
   const increment = 1.0 / (options.stops - 1);
 
