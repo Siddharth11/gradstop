@@ -48,7 +48,7 @@ var handleErrors = exports.handleErrors = function handleErrors(options) {
   }
 };
 
-var hexToRgb = function hexToRgb(hex) {
+var hexToRgb = exports.hexToRgb = function hexToRgb(hex) {
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex),
       _result$map = result.map(function (val) {
     return parseInt(val, 16);
@@ -62,7 +62,7 @@ var hexToRgb = function hexToRgb(hex) {
 };
 
 // if hex and defined as #fff then convert it to standard 7 letter format #ffffff
-var standardizeHexValues = function standardizeHexValues(arrayOfHexStrings) {
+var standardizeHexValues = exports.standardizeHexValues = function standardizeHexValues(arrayOfHexStrings) {
   return arrayOfHexStrings.map(function (str) {
     if (str.length === 4) {
       return '#' + (str[1] + str[1] + str[2] + str[2] + str[3] + str[3]);
@@ -112,7 +112,7 @@ var getHSLString = exports.getHSLString = function getHSLString(_ref2) {
   var h = _ref2.h,
       s = _ref2.s,
       l = _ref2.l;
-  return 'hsl(' + h + ', ' + s + '%, ' + arr[l] + '%)';
+  return 'hsl(' + h + ', ' + s + '%, ' + l + '%)';
 };
 
 // get r,g,b,h,s and l with Bezier interpolation
@@ -151,13 +151,11 @@ var transformColorStringsToObjects = exports.transformColorStringsToObjects = fu
 
 var stopsGenerator = exports.stopsGenerator = function stopsGenerator(options) {
   var outputArray = [];
-  var inc = 1.0 / (options.stops - 1);
-
-  var t = 0;
+  var increment = 1.0 / (options.stops - 1);
 
   for (var i = 0; i < options.stops; i++) {
     if (options.inputFormat === 'hex' || options.inputFormat === 'rgb') {
-      var _rgbBezierInterpolati = rgbBezierInterpolation(options.colorArray, t),
+      var _rgbBezierInterpolati = rgbBezierInterpolation(options.colorArray, increment * i),
           _rgbBezierInterpolati2 = _slicedToArray(_rgbBezierInterpolati, 3),
           r = _rgbBezierInterpolati2[0],
           g = _rgbBezierInterpolati2[1],
@@ -165,7 +163,7 @@ var stopsGenerator = exports.stopsGenerator = function stopsGenerator(options) {
 
       outputArray.push(getRGBString({ r: r, g: g, b: b }));
     } else if (options.inputFormat === 'hsl') {
-      var _hslBezierInterpolati = hslBezierInterpolation(options.colorArray, t),
+      var _hslBezierInterpolati = hslBezierInterpolation(options.colorArray, increment * i),
           _hslBezierInterpolati2 = _slicedToArray(_hslBezierInterpolati, 3),
           h = _hslBezierInterpolati2[0],
           s = _hslBezierInterpolati2[1],
@@ -173,7 +171,6 @@ var stopsGenerator = exports.stopsGenerator = function stopsGenerator(options) {
 
       outputArray.push(getHSLString({ h: h, s: s, l: l }));
     }
-    t += inc;
   }
 
   return outputArray;

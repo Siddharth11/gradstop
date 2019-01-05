@@ -37,14 +37,14 @@ export const handleErrors = options => {
   }
 };
 
-const hexToRgb = hex => {
+export const hexToRgb = hex => {
   let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex),
     [, r, g, b] = result.map(val => parseInt(val, 16));
   return result ? { r, g, b } : null;
 };
 
 // if hex and defined as #fff then convert it to standard 7 letter format #ffffff
-const standardizeHexValues = arrayOfHexStrings =>
+export const standardizeHexValues = arrayOfHexStrings =>
   arrayOfHexStrings.map(str => {
     if (str.length === 4) {
       return `#${str[1] + str[1] + str[2] + str[2] + str[3] + str[3]}`;
