@@ -15,14 +15,151 @@ describe('gradstop', () => {
     expect(gradstop(options)).toHaveLength(options.stops);
   });
 
-  it('outputs correct color values according to bezier interpolation', () => {
-    expect(gradstop(options)).toEqual([
-      'rgb(52, 56, 56)',
-      'rgb(39, 97, 105)',
-      'rgb(26, 139, 154)',
-      'rgb(13, 181, 203)',
-      'rgb(0, 223, 252)',
-    ]);
+  describe('outputs correct color values according to bezier interpolation', () => {
+    describe('for hex', () => {
+      it('with 2 items in color array', () => {
+        expect(gradstop(options)).toEqual([
+          'rgb(52, 56, 56)',
+          'rgb(39, 97, 105)',
+          'rgb(26, 139, 154)',
+          'rgb(13, 181, 203)',
+          'rgb(0, 223, 252)',
+        ]);
+      });
+
+      it('with 3 items in color array', () => {
+        const newOptions = {
+          ...options,
+          colorArray: ['#343838', '#fff', '#00DFFC'],
+        };
+        expect(gradstop(newOptions)).toEqual([
+          'rgb(52, 56, 56)',
+          'rgb(124, 141, 142)',
+          'rgb(140, 197, 204)',
+          'rgb(98, 224, 240)',
+          'rgb(0, 223, 252)',
+        ]);
+      });
+      it('with 4 items in color array', () => {
+        const newOptions = {
+          ...options,
+          colorArray: ['#343838', '#fff', '#fff', '#00DFFC'],
+        };
+        expect(gradstop(newOptions)).toEqual([
+          'rgb(52, 56, 56)',
+          'rgb(165, 170, 171)',
+          'rgb(197, 226, 229)',
+          'rgb(144, 238, 250)',
+          'rgb(0, 223, 252)',
+        ]);
+      });
+    });
+
+    describe('for rgb', () => {
+      it('with 2 items in color array', () => {
+        const newOptions = {
+          inputFormat: 'rgb',
+          colorArray: ['rgb(52, 56, 56)', 'rgb(0, 223, 252)'],
+        };
+        expect(gradstop(newOptions)).toEqual([
+          'rgb(52, 56, 56)',
+          'rgb(39, 97, 105)',
+          'rgb(26, 139, 154)',
+          'rgb(13, 181, 203)',
+          'rgb(0, 223, 252)',
+        ]);
+      });
+
+      it('with 3 items in color array', () => {
+        const newOptions = {
+          inputFormat: 'rgb',
+          colorArray: [
+            'rgb(52, 56, 56)',
+            'rgb(255, 255, 255)',
+            'rgb(0, 223, 252)',
+          ],
+        };
+        expect(gradstop(newOptions)).toEqual([
+          'rgb(52, 56, 56)',
+          'rgb(124, 141, 142)',
+          'rgb(140, 197, 204)',
+          'rgb(98, 224, 240)',
+          'rgb(0, 223, 252)',
+        ]);
+      });
+
+      it('with 4 items in color array', () => {
+        const newOptions = {
+          inputFormat: 'rgb',
+          colorArray: [
+            'rgb(52, 56, 56)',
+            'rgb(255, 255, 255)',
+            'rgb(255, 255, 255)',
+            'rgb(0, 223, 252)',
+          ],
+        };
+        expect(gradstop(newOptions)).toEqual([
+          'rgb(52, 56, 56)',
+          'rgb(165, 170, 171)',
+          'rgb(197, 226, 229)',
+          'rgb(144, 238, 250)',
+          'rgb(0, 223, 252)',
+        ]);
+      });
+    });
+
+    describe('for hsl', () => {
+      it('with 2 items in color array', () => {
+        const newOptions = {
+          inputFormat: 'hsl',
+          colorArray: ['hsl(180, 4%, 21%)', 'hsl(187, 100%, 49%)'],
+        };
+        expect(gradstop(newOptions)).toEqual([
+          'hsl(180, 4%, 21%)',
+          'hsl(181, 28%, 28%)',
+          'hsl(183, 52%, 35%)',
+          'hsl(185, 76%, 42%)',
+          'hsl(187, 100%, 49%)',
+        ]);
+      });
+
+      it('with 3 items in color array', () => {
+        const newOptions = {
+          inputFormat: 'hsl',
+          colorArray: [
+            'hsl(180, 4%, 21%)',
+            'hsl(0, 0%, 100%)',
+            'hsl(187, 100%, 49%)',
+          ],
+        };
+        expect(gradstop(newOptions)).toEqual([
+          'hsl(180, 4%, 21%)',
+          'hsl(112, 8%, 52%)',
+          'hsl(91, 26%, 67%)',
+          'hsl(116, 56%, 66%)',
+          'hsl(187, 100%, 49%)',
+        ]);
+      });
+
+      it('with 4 items in color array', () => {
+        const newOptions = {
+          inputFormat: 'hsl',
+          colorArray: [
+            'hsl(180, 4%, 21%)',
+            'hsl(0, 0%, 100%)',
+            'hsl(0, 0%, 100%)',
+            'hsl(187, 100%, 49%)',
+          ],
+        };
+        expect(gradstop(newOptions)).toEqual([
+          'hsl(180, 4%, 21%)',
+          'hsl(78, 3%, 65%)',
+          'hsl(45, 13%, 83%)',
+          'hsl(81, 42%, 77%)',
+          'hsl(187, 100%, 49%)',
+        ]);
+      });
+    });
   });
 
   describe('throws error', () => {
