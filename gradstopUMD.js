@@ -188,16 +188,17 @@ var bezierInterpolation = function bezierInterpolation(colorTypeChars) {
   return function (colArr, x) {
     var y = 1 - x;
     var v = void 0;
-    return colorTypeChars.map(function (c) {
+    return colorTypeChars.reduce(function (colorObject, char) {
       if (colArr.length === 2) {
-        v = y * colArr[0][c] + x * colArr[1][c];
+        v = y * colArr[0][char] + x * colArr[1][char];
       } else if (colArr.length === 3) {
-        v = Math.pow(y, 2) * colArr[0][c] + 2 * y * x * colArr[1][c] + Math.pow(x, 2) * colArr[2][c];
+        v = Math.pow(y, 2) * colArr[0][char] + 2 * y * x * colArr[1][char] + Math.pow(x, 2) * colArr[2][char];
       } else if (colArr.length === 4) {
-        v = Math.pow(y, 3) * colArr[0][c] + 3 * Math.pow(y, 2) * x * colArr[1][c] + 3 * y * Math.pow(x, 2) * colArr[2][c] + Math.pow(x, 3) * colArr[3][c];
+        v = Math.pow(y, 3) * colArr[0][char] + 3 * Math.pow(y, 2) * x * colArr[1][char] + 3 * y * Math.pow(x, 2) * colArr[2][char] + Math.pow(x, 3) * colArr[3][char];
       }
-      return mathTrunc(v);
-    });
+      colorObject[char] = mathTrunc(v);
+      return colorObject;
+    }, {});
   };
 };
 
@@ -221,21 +222,11 @@ var stopsGenerator = function stopsGenerator(options) {
 
   for (var i = 0; i < options.stops; i++) {
     if (options.inputFormat === 'hex' || options.inputFormat === 'rgb') {
-      var _rgbBezierInterpolati = rgbBezierInterpolation(options.colorArray, increment * i),
-          _rgbBezierInterpolati2 = _slicedToArray(_rgbBezierInterpolati, 3),
-          r = _rgbBezierInterpolati2[0],
-          g = _rgbBezierInterpolati2[1],
-          b = _rgbBezierInterpolati2[2];
-
-      outputArray.push(getRGBString({ r: r, g: g, b: b }));
+      var rgbObject = rgbBezierInterpolation(options.colorArray, increment * i);
+      outputArray.push(getRGBString(rgbObject));
     } else if (options.inputFormat === 'hsl') {
-      var _hslBezierInterpolati = hslBezierInterpolation(options.colorArray, increment * i),
-          _hslBezierInterpolati2 = _slicedToArray(_hslBezierInterpolati, 3),
-          h = _hslBezierInterpolati2[0],
-          s = _hslBezierInterpolati2[1],
-          l = _hslBezierInterpolati2[2];
-
-      outputArray.push(getHSLString({ h: h, s: s, l: l }));
+      var hslObject = hslBezierInterpolation(options.colorArray, increment * i);
+      outputArray.push(getHSLString(hslObject));
     }
   }
 

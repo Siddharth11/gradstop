@@ -77,23 +77,24 @@ export const getHSLString = ({ h, s, l }) => `hsl(${h}, ${s}%, ${l}%)`;
 const bezierInterpolation = colorTypeChars => (colArr, x) => {
   let y = 1 - x;
   let v;
-  return colorTypeChars.map(c => {
+  return colorTypeChars.reduce((colorObject, char) => {
     if (colArr.length === 2) {
-      v = y * colArr[0][c] + x * colArr[1][c];
+      v = y * colArr[0][char] + x * colArr[1][char];
     } else if (colArr.length === 3) {
       v =
-        y ** 2 * colArr[0][c] +
-        2 * y * x * colArr[1][c] +
-        x ** 2 * colArr[2][c];
+        y ** 2 * colArr[0][char] +
+        2 * y * x * colArr[1][char] +
+        x ** 2 * colArr[2][char];
     } else if (colArr.length === 4) {
       v =
-        y ** 3 * colArr[0][c] +
-        3 * y ** 2 * x * colArr[1][c] +
-        3 * y * x ** 2 * colArr[2][c] +
-        x ** 3 * colArr[3][c];
+        y ** 3 * colArr[0][char] +
+        3 * y ** 2 * x * colArr[1][char] +
+        3 * y * x ** 2 * colArr[2][char] +
+        x ** 3 * colArr[3][char];
     }
-    return mathTrunc(v);
-  });
+    colorObject[char] = mathTrunc(v);
+    return colorObject;
+  }, {});
 };
 
 const rgbBezierInterpolation = bezierInterpolation(['r', 'g', 'b']);
@@ -116,11 +117,11 @@ const stopsGenerator = options => {
 
   for (let i = 0; i < options.stops; i++) {
     if (options.inputFormat === 'hex' || options.inputFormat === 'rgb') {
-      let [r, g, b] = rgbBezierInterpolation(options.colorArray, increment * i);
-      outputArray.push(getRGBString({ r, g, b }));
+      let rgbObject = rgbBezierInterpolation(options.colorArray, increment * i);
+      outputArray.push(getRGBString(rgbObject));
     } else if (options.inputFormat === 'hsl') {
-      let [h, s, l] = hslBezierInterpolation(options.colorArray, increment * i);
-      outputArray.push(getHSLString({ h, s, l }));
+      let hslObject = hslBezierInterpolation(options.colorArray, increment * i);
+      outputArray.push(getHSLString(hslObject));
     }
   }
 
