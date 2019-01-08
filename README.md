@@ -5,7 +5,7 @@
     <img src="https://badge.fury.io/js/gradstop.svg" alt="NPM Version">
   </a>
   <a href="https://npmcharts.com/compare/gradstop">
-    <img src="https://img.shields.io/npm/dw/gradstop.svg" alt="NPM Downloads">
+    <img src="https://img.shields.io/npm/dm/gradstop.svg" alt="NPM Downloads">
   </a>
   <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
