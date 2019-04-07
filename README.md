@@ -49,3 +49,6 @@ console.log(gradient);
  * colorArray: ['#fff', '#000'] \(supports upto 4 values)
 
 Both shorthand(#fff) and standard(#ffffff) format hex values are supported.
+
+#### Polyfills required:
+- Math.trunc
