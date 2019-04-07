@@ -8,15 +8,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-var mathTrunc = function () {
-  if (Math.trunc) {
-    return Math.trunc;
-  }
-  return function (x) {
-    return x === 0 ? x : x < 0 ? Math.ceil(x) : Math.floor(x);
-  };
-}();
-
 var handleErrors = exports.handleErrors = function handleErrors(options) {
   var inputFormat = options.inputFormat,
       stops = options.stops,
@@ -131,7 +122,7 @@ var bezierInterpolation = function bezierInterpolation(colorTypeChars) {
       } else if (colArr.length === 4) {
         v = Math.pow(y, 3) * colArr[0][char] + 3 * Math.pow(y, 2) * x * colArr[1][char] + 3 * y * Math.pow(x, 2) * colArr[2][char] + Math.pow(x, 3) * colArr[3][char];
       }
-      colorObject[char] = mathTrunc(v);
+      colorObject[char] = Math.trunc(v);
       return colorObject;
     }, {});
   };

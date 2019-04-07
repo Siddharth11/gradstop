@@ -74,15 +74,6 @@ var _slicedToArray = function () {
   };
 }();
 
-var mathTrunc = function () {
-  if (Math.trunc) {
-    return Math.trunc;
-  }
-  return function (x) {
-    return x === 0 ? x : x < 0 ? Math.ceil(x) : Math.floor(x);
-  };
-}();
-
 var handleErrors = exports.handleErrors = function handleErrors(options) {
   var inputFormat = options.inputFormat,
       stops = options.stops,
@@ -196,7 +187,7 @@ var bezierInterpolation = function bezierInterpolation(colorTypeChars) {
       } else if (colArr.length === 4) {
         v = Math.pow(y, 3) * colArr[0][char] + 3 * Math.pow(y, 2) * x * colArr[1][char] + 3 * y * Math.pow(x, 2) * colArr[2][char] + Math.pow(x, 3) * colArr[3][char];
       }
-      colorObject[char] = mathTrunc(v);
+      colorObject[char] = Math.trunc(v);
       return colorObject;
     }, {});
   };
