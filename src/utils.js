@@ -1,12 +1,3 @@
-const mathTrunc = (() => {
-  if (Math.trunc) {
-    return Math.trunc;
-  }
-  return function(x) {
-    return x === 0 ? x : x < 0 ? Math.ceil(x) : Math.floor(x);
-  };
-})();
-
 export const handleErrors = options => {
   const { inputFormat, stops, colorArray } = options;
 
@@ -92,7 +83,7 @@ const bezierInterpolation = colorTypeChars => (colArr, x) => {
         3 * y * x ** 2 * colArr[2][char] +
         x ** 3 * colArr[3][char];
     }
-    colorObject[char] = mathTrunc(v);
+    colorObject[char] = Math.trunc(v);
     return colorObject;
   }, {});
 };
